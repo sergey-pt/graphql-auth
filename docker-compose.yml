@@ -1,0 +1,16 @@
+version: "3"
+
+volumes:
+  postgres-data:
+    driver: local
+  app-gems:
+
+services:
+  postgres:
+    image: postgres:10.1 # We'll use the official postgres image.
+    volumes:
+      # Mounts a persistable volume inside the postgres data folder, so we
+      # don't lose the created databases when this container is removed.
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"

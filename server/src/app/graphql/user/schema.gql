@@ -1,0 +1,27 @@
+type Mutation {
+  createUser(data: CreateUserInput): User!,
+  updateUser(data: UpdateUserInput): User!
+}
+
+type Query {
+  "A simple type for getting started!"
+  users: [User]!
+}
+
+type User {
+  id: ID!,
+  email: String!
+  passwordDigest: String!
+  stories: [Story]!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  id: ID,
+  email: String!
+  password: String!
+}

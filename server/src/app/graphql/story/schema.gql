@@ -1,0 +1,26 @@
+type Mutation {
+  createStory(data: CreateStoryInput): Story!,
+  updateStory(data: UpdateStoryInput): Story!
+}
+
+type Query {
+  "A simple type for getting started!"
+  stories: [Story]!
+}
+
+type Story {
+  id: ID!,
+  title: String!
+  user: User
+}
+
+input CreateStoryInput {
+  title: String!
+  userId: Int!
+}
+
+input UpdateStoryInput {
+  id: ID!,
+  title: String!
+  userId: Int!
+}

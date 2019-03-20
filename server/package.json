@@ -1,0 +1,49 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node --inspect ./src/index.js --ext js,gql | pino-pretty",
+    "test": "./node_modules/.bin/mocha --require @babel/register",
+    "build": "babel src --out-dir ./dist --source-maps",
+    "serve": "node ./dist/index.js",
+    "knex": "babel-node node_modules/.bin/knex",
+    "knex-migrate": "babel-node node_modules/.bin/knex-migrate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@knorm/knorm": "^2.1.2",
+    "@knorm/postgres": "^2.0.2",
+    "@knorm/relations": "^2.0.0",
+    "@knorm/timestamps": "^2.0.0",
+    "apollo-server": "^2.4.8",
+    "bcrypt": "^3.0.5",
+    "dotenv": "^7.0.0",
+    "graphql": "^14.1.1",
+    "graphql-tools": "^4.0.4",
+    "knex": "^0.16.3",
+    "knex-migrate": "^1.7.1",
+    "lodash": "^4.17.11",
+    "objection": "^1.6.3",
+    "objection-before-and-unique": "^0.5.0",
+    "pino": "^5.11.2",
+    "pino-pretty": "^2.5.0",
+    "schemaglue": "^4.0.2",
+    "validator": "^10.11.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/register": "^7.0.0",
+    "babel-plugin-root-import": "^6.1.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2",
+    "nodemon": "^1.18.10"
+  }
+}
