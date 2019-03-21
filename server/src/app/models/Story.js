@@ -1,9 +1,14 @@
-import validator from 'validator'
-import obau from 'objection-before-and-unique';
+import obau from 'objection-before-and-unique'
 
-import { BaseModel } from '~/src/app/models/BaseModel'
-import { User } from '~/src/app/models/User'
-import { UserNotFoundError } from '~/src/app/errors/models/UserErrors'
+import {
+  BaseModel
+} from '~/src/app/models/BaseModel'
+import {
+  User
+} from '~/src/app/models/User'
+import {
+  UserNotFoundError
+} from '~/src/app/errors/models/UserErrors'
 
 const opts = {
   schema: {
@@ -11,16 +16,26 @@ const opts = {
     required: ['title', 'userId'],
 
     properties: {
-      id: { type: 'integer' },
-      title: { type: 'string', minLength: 4, maxLength: 120 },
-      userId: { type: 'integer' }
+      id: {
+        type: 'integer'
+      },
+      title: {
+        type: 'string',
+        minLength: 4,
+        maxLength: 120
+      },
+      userId: {
+        type: 'integer'
+      }
     },
   },
   before: [
-    async ({ instance }) => {
+    async ({
+      instance
+    }) => {
       const user = await User.query().where('id', instance.userId).first()
       if (!user) {
-        throw new UserNotFoundError();
+        throw new UserNotFoundError()
       }
     },
   ]
@@ -30,7 +45,7 @@ class Story extends obau(opts)(BaseModel) {
   static tableName = 'stories'
 
   user() {
-    return this.$relatedQuery('user');
+    return this.$relatedQuery('user')
   }
 
   static relationMappings = () => ({
@@ -45,4 +60,6 @@ class Story extends obau(opts)(BaseModel) {
   })
 }
 
-export { Story }
+export {
+  Story
+}
