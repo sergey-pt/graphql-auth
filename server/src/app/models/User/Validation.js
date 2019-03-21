@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 import {
   User
-} from '~/src/app/models/User'
+} from '~/src/app/models/User/Model'
 
 const passwordSchema = new passwordValidator()
 

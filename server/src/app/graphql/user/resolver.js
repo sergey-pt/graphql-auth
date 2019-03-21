@@ -1,54 +1,32 @@
 import {
   User
-} from '~/src/app/models/User'
-import {
-  UserNotFoundError
-} from '~/src/app/errors/models/UserErrors'
+} from '~/src/app/models/User/Model'
+
+import createUser from '~/src/app/services/User/createUser'
+import updateUser from '~/src/app/services/User/updateUser'
 
 const resolver = {
   Query: {
     users: async () => {
-      const users = await User.query().eager('stories')
-      return users
+      return await User.query().eager('stories')
     },
   },
 
   Mutation: {
-    createUser: async (parent, {
+    createUser: async (_, {
       data
     }) => {
-
-      const user = await User.query().insert({
-        email: data.email,
-        password: data.password,
-        username: data.username
+      return await createUser({
+        data
       })
-
-      return user
     },
 
-    updateUser: async (parent, {
+    updateUser: async (_, {
       data
     }) => {
-      const user = await User
-        .query()
-        .where('id', data.id)
-        .first()
-
-      if (!user) {
-        throw new UserNotFoundError({
-          data: {
-            id: data.id
-          }
-        })
-      }
-
-      const updatedUser = user.$query().updateAndFetch({
-        email: data.email,
-        password: data.password
+      return await updateUser({
+        data
       })
-
-      return updatedUser
     }
   }
 }
