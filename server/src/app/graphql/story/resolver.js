@@ -5,10 +5,6 @@ import {
   StoryNotFoundError
 } from '~/src/app/errors/models/StoryErrors'
 
-import {
-  GraphQLScalarType
-} from 'graphql'
-
 const resolver = {
   Query: {
     stories: async () => {
