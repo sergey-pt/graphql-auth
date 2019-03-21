@@ -11,7 +11,8 @@
   ],
   "plugins": [
     ["babel-plugin-root-import"],
-    ["@babel/plugin-proposal-class-properties"]
+    ["@babel/plugin-proposal-class-properties"],
+    ["@babel/plugin-proposal-optional-chaining"]
   ],
   "retainLines": true,
   "sourceMaps": true

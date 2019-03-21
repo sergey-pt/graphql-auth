@@ -17,14 +17,21 @@ const resolver = {
 
     updateStory: async(parent, { data }, context, info) => {
       const { id, ...updateParams } = data;
+
       const story = await Story
         .query()
-        .patch({ ...updateParams })
         .where('id', id)
-        .returning('*')
         .first()
 
-      return story
+      if (!story) {
+        throw new StoryNotFoundError({
+          data: { id }
+        })
+      }
+
+      const updatedStory = story.$query().updateAndFetch({ ...updateParams })
+
+      return updatedStory
     }
   }
 };

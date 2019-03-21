@@ -1,50 +1,41 @@
-import validator from 'validator'
 import obau from 'objection-before-and-unique';
+import bcrypt from 'bcrypt'
 
-import { Model } from '~/src/db/index'
+import { BaseModel } from '~/src/app/models/BaseModel'
 import { Story } from '~/src/app/models/Story'
-import { ValidationError } from 'ajv'
+
+import userValidate from '~/src/app/models/UserValidation'
+import { UserValidationError } from '~/src/app/errors/models/UserErrors'
 
 const opts = {
   schema: {
     type: 'object',
-    required: ['email', 'passwordDigest'],
+    required: ['email', 'password'],
 
     properties: {
       id: { type: 'integer' },
-      email: { type: 'string', minLength: 4, maxLength: 255 },
-      passwordDigest: { type: 'string' }
+      email: { type: 'string' },
+      username: { type: 'string' },
+      password: { type: 'string' }
     }
   },
-  unique: [
-    { key: 'email' }
-  ],
   before: [
-    ({ instance }) => {
-      if (!validator.isEmail(instance.email)) {
-        throw new ValidationError({
-          code: 422,
-          message: 'invalid email',
-          type: 'ValidationError',
-          data: { email: instance.email }
+    async ({ instance, old, operation, context }) => {
+      const userErrors = await userValidate({ instance, old, operation })
+
+      if (userErrors.length) {
+        throw new UserValidationError({
+          data: userErrors
         })
       }
+
+      const password = instance.password || old.password
+      instance.password = await bcrypt.hash(password, 10)
     }
   ]
 }
 
-class User extends obau(opts)(Model) {
-  async $beforeInsert(context) {
-    await super.$beforeInsert(context);
-    this.created_at = new Date().toISOString();
-    this.updated_at = new Date().toISOString();
-  }
-
-  async $beforeUpdate(options, context) {
-    await super.$beforeUpdate(options, context);
-    this.updated_at = new Date().toISOString();
-  }
-
+class User extends obau(opts)(BaseModel) {
   static tableName = 'users'
 
   stories() {
@@ -53,7 +44,7 @@ class User extends obau(opts)(Model) {
 
   static relationMappings = () => ({
     stories: {
-      relation: Model.HasManyRelation,
+      relation: BaseModel.HasManyRelation,
       modelClass: Story,
       join: {
         from: 'users.id',

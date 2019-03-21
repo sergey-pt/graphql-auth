@@ -2,7 +2,8 @@ const up = (knex, Promise) => {
   return knex.schema.createTable('users', (t) => {
     t.increments().primary().unique();
     t.string('email').notNull().unique();
-    t.string('passwordDigest').notNull();
+    t.string('username').notNull().unique();
+    t.string('password').notNull();
     t.timestamps();
   });
 };

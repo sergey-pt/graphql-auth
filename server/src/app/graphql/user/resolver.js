@@ -1,5 +1,5 @@
 import { User } from '~/src/app/models/User'
-import bcrypt from 'bcrypt'
+import { UserNotFoundError } from '~/src/app/errors/models/UserErrors'
 
 const resolver = {
   Query: {
@@ -11,24 +11,34 @@ const resolver = {
 
   Mutation: {
     createUser: async(parent, { data }, context, info) => {
-      const passwordDigest = await bcrypt.hash(data.password, 10);
 
-      const user = await User.query().insert({ email: data.email, passwordDigest })
+      const user = await User.query().insert({
+        email: data.email,
+        password: data.password,
+        username: data.username
+      })
 
       return user
     },
 
     updateUser: async(parent, { data }, context, info) => {
-      const passwordDigest = await bcrypt.hash(data.password, 10);
-
       const user = await User
         .query()
-        .first()
         .where('id', data.id)
-        .throwIfNotFound()
-        .then((u) => u.$query().updateAndFetch({ email: data.email, passwordDigest }))
+        .first()
 
-      return user
+      if (!user) {
+        throw new UserNotFoundError({
+          data: { id: data.id }
+        })
+      }
+
+      const updatedUser = user.$query().updateAndFetch({
+        email: data.email,
+        password: data.password
+      })
+
+      return updatedUser
     }
   }
 };

@@ -11,17 +11,19 @@ type Query {
 type User {
   id: ID!,
   email: String!
-  passwordDigest: String!
+  username: String!
+  password: String!
   stories: [Story]!
 }
 
 input CreateUserInput {
   email: String!
+  username: String!
   password: String!
 }
 
 input UpdateUserInput {
-  id: ID,
-  email: String!
-  password: String!
+  id: ID!,
+  email: String
+  password: String
 }
