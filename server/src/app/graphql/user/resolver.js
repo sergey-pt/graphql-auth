@@ -1,16 +1,22 @@
-import { User } from '~/src/app/models/User'
-import { UserNotFoundError } from '~/src/app/errors/models/UserErrors'
+import {
+  User
+} from '~/src/app/models/User'
+import {
+  UserNotFoundError
+} from '~/src/app/errors/models/UserErrors'
 
 const resolver = {
   Query: {
-    users: async() => {
+    users: async () => {
       const users = await User.query().eager('stories')
       return users
     },
   },
 
   Mutation: {
-    createUser: async(parent, { data }, context, info) => {
+    createUser: async (parent, {
+      data
+    }) => {
 
       const user = await User.query().insert({
         email: data.email,
@@ -21,7 +27,9 @@ const resolver = {
       return user
     },
 
-    updateUser: async(parent, { data }, context, info) => {
+    updateUser: async (parent, {
+      data
+    }) => {
       const user = await User
         .query()
         .where('id', data.id)
@@ -29,7 +37,9 @@ const resolver = {
 
       if (!user) {
         throw new UserNotFoundError({
-          data: { id: data.id }
+          data: {
+            id: data.id
+          }
         })
       }
 
@@ -41,6 +51,8 @@ const resolver = {
       return updatedUser
     }
   }
-};
+}
 
-export { resolver }
+export {
+  resolver
+}

@@ -1,22 +1,36 @@
-import { Story } from '~/src/app/models/Story'
+import {
+  Story
+} from '~/src/app/models/Story'
+import {
+  StoryNotFoundError
+} from '~/src/app/errors/models/StoryErrors'
 
 const resolver = {
   Query: {
-    stories: async() => {
+    stories: async () => {
       const stories = await Story.query().eager('user')
       return stories
     },
   },
 
   Mutation: {
-    createStory: async(parent, { data }, context, info) => {
-      const story = await Story.query().insert({ ...data })
+    createStory: async (parent, {
+      data
+    }) => {
+      const story = await Story.query().insert({
+        ...data
+      })
 
       return story
     },
 
-    updateStory: async(parent, { data }, context, info) => {
-      const { id, ...updateParams } = data;
+    updateStory: async (parent, {
+      data
+    }) => {
+      const {
+        id,
+        ...updateParams
+      } = data
 
       const story = await Story
         .query()
@@ -25,15 +39,21 @@ const resolver = {
 
       if (!story) {
         throw new StoryNotFoundError({
-          data: { id }
+          data: {
+            id
+          }
         })
       }
 
-      const updatedStory = story.$query().updateAndFetch({ ...updateParams })
+      const updatedStory = story.$query().updateAndFetch({
+        ...updateParams
+      })
 
       return updatedStory
     }
   }
-};
+}
 
-export { resolver }
+export {
+  resolver
+}

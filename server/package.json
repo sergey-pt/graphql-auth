@@ -40,8 +40,10 @@
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "@babel/preset-env": "^7.3.4",
     "@babel/register": "^7.0.0",
+    "babel-eslint": "^10.0.1",
     "babel-plugin-root-import": "^6.1.0",
     "chai": "^4.2.0",
+    "eslint": "^5.15.3",
     "mocha": "^6.0.2",
     "nodemon": "^1.18.10"
   }

@@ -1,15 +1,18 @@
-const up = (knex, Promise) => {
+const up = (knex) => {
   return knex.schema.createTable('users', (t) => {
-    t.increments().primary().unique();
-    t.string('email').notNull().unique();
-    t.string('username').notNull().unique();
-    t.string('password').notNull();
-    t.timestamps();
-  });
-};
+    t.increments().primary().unique()
+    t.string('email').notNull().unique()
+    t.string('username').notNull().unique()
+    t.string('password').notNull()
+    t.timestamps()
+  })
+}
 
-const down = (knex, Promise) => {
-  return knex.schema.dropTable('users');
-};
+const down = (knex) => {
+  return knex.schema.dropTable('users')
+}
 
-export { up, down }
+export {
+  up,
+  down
+}
