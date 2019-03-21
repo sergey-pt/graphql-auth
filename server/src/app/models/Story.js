@@ -6,23 +6,22 @@ import {
 import {
   User
 } from '~/src/app/models/User'
+
+import storyValidate from '~/src/app/models/StoryValidation'
 import {
-  UserNotFoundError
-} from '~/src/app/errors/models/UserErrors'
+  StoryValidationError
+} from '~/src/app/errors/models/StoryErrors'
 
 const opts = {
   schema: {
     type: 'object',
-    required: ['title', 'userId'],
 
     properties: {
       id: {
         type: 'integer'
       },
       title: {
-        type: 'string',
-        minLength: 4,
-        maxLength: 120
+        type: 'string'
       },
       userId: {
         type: 'integer'
@@ -31,13 +30,22 @@ const opts = {
   },
   before: [
     async ({
-      instance
+      instance,
+      old,
+      operation
     }) => {
-      const user = await User.query().where('id', instance.userId).first()
-      if (!user) {
-        throw new UserNotFoundError()
+      const storyErrors = await storyValidate({
+        instance,
+        old,
+        operation
+      })
+
+      if (storyErrors.length) {
+        throw new StoryValidationError({
+          data: storyErrors
+        })
       }
-    },
+    }
   ]
 }
 
