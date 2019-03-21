@@ -1,5 +1,5 @@
 type Mutation {
-  createUser(data: CreateUserInput): User!,
+  createUser(data: CreateUserInput): User!
   updateUser(data: UpdateUserInput): User!
 }
 
@@ -9,11 +9,13 @@ type Query {
 }
 
 type User {
-  id: ID!,
+  id: ID!
   email: String!
   username: String!
   password: String!
   stories: [Story]!
+  created_at: DateTime!
+  updated_at: DateTime!
 }
 
 input CreateUserInput {
@@ -23,7 +25,7 @@ input CreateUserInput {
 }
 
 input UpdateUserInput {
-  id: ID!,
+  id: ID!
   email: String
   password: String
 }

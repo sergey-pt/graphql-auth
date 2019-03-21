@@ -18,4 +18,25 @@ class StoryNotFoundError extends ApplicationError {
   }
 }
 
-export default StoryNotFoundError
+class StoryValidationError extends ApplicationError {
+  constructor({
+    message,
+    code,
+    data
+  }) {
+    const errorMessage = message || 'Invalid Story Data'
+    const errorCode = code || 'VALIDATION_ERROR'
+    const errorData = data || {}
+
+    super({
+      message: errorMessage,
+      code: errorCode,
+      data: errorData
+    })
+  }
+}
+
+export {
+  StoryNotFoundError,
+  StoryValidationError
+}

@@ -1,5 +1,5 @@
 type Mutation {
-  createStory(data: CreateStoryInput): Story!,
+  createStory(data: CreateStoryInput): Story!
   updateStory(data: UpdateStoryInput): Story!
 }
 
@@ -9,9 +9,11 @@ type Query {
 }
 
 type Story {
-  id: ID!,
+  id: ID!
   title: String!
   user: User
+  created_at: DateTime!
+  updated_at: DateTime!
 }
 
 input CreateStoryInput {
@@ -20,7 +22,7 @@ input CreateStoryInput {
 }
 
 input UpdateStoryInput {
-  id: ID!,
+  id: ID!
   title: String!
   userId: Int!
 }
