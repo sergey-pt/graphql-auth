@@ -1,6 +1,6 @@
 import {
   User
-} from '~/src/app/models/User'
+} from '~/src/app/models/User/Model'
 
 const storyValidate = async ({
   instance

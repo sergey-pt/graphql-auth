@@ -1,55 +1,32 @@
 import {
   Story
-} from '~/src/app/models/Story'
-import {
-  StoryNotFoundError
-} from '~/src/app/errors/models/StoryErrors'
+} from '~/src/app/models/Story/Model'
+
+import createStory from '~/src/app/services/Story/createStory'
+import updateStory from '~/src/app/services/Story/updateStory'
 
 const resolver = {
   Query: {
     stories: async () => {
-      const stories = await Story.query().eager('user')
-      return stories
-    },
+      return await Story.query().eager('user')
+    }
   },
 
   Mutation: {
-    createStory: async (parent, {
+    createStory: async (_, {
       data
     }) => {
-      const story = await Story.query().insert({
-        ...data
+      return await createStory({
+        data
       })
-
-      return story
     },
 
-    updateStory: async (parent, {
+    updateStory: async (_, {
       data
     }) => {
-      const {
-        id,
-        ...updateParams
-      } = data
-
-      const story = await Story
-        .query()
-        .where('id', id)
-        .first()
-
-      if (!story) {
-        throw new StoryNotFoundError({
-          data: {
-            id
-          }
-        })
-      }
-
-      const updatedStory = story.$query().updateAndFetch({
-        ...updateParams
+      return await updateStory({
+        data
       })
-
-      return updatedStory
     }
   }
 }

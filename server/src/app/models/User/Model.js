@@ -6,9 +6,9 @@ import {
 } from '~/src/app/models/BaseModel'
 import {
   Story
-} from '~/src/app/models/Story'
+} from '~/src/app/models/Story/Model'
 
-import userValidate from '~/src/app/models/UserValidation'
+import userValidate from '~/src/app/models/User/Validation'
 import {
   UserValidationError
 } from '~/src/app/errors/models/UserErrors'
