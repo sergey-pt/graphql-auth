@@ -10,7 +10,8 @@ const log = ({
 module.exports = async () => {
   console.log('\n')
   await knexMigrate('down', {
-    to: 0
+    to: 0,
+    knexfile: 'src/db/config.js'
   }, log)
 
   await global.apollo.server.close()

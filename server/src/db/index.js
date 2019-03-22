@@ -1,11 +1,11 @@
 import Knex from 'knex'
-import knexConfig from '~/knexfile.js'
+import dbConfig from '~/src/db/config.js'
 import {
   Model
 } from 'objection'
 
 const environment = process.env.NODE_ENV || 'development'
-const knex = Knex(knexConfig[environment])
+const knex = Knex(dbConfig[environment])
 
 Model.knex(knex)
 
