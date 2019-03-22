@@ -1,46 +1,17 @@
-const logger = require('pino')()
-
+import server from '~/src/server'
 import dotenv from 'dotenv'
-import glue from 'schemaglue'
 
-import {
-  ApolloServer
-} from 'apollo-server'
+const environment = process.env.NODE_ENV || 'development'
+const port = process.env.APOLLO_SERVER_PORT || '4000'
 
 dotenv.config({
-  path: '~/variables.env'
+  path: `~/config/${environment}.env`
 })
 
-const {
-  schema,
-  resolver
-} = glue('./src/app/graphql')
-
-async function main() {
-  const server = new ApolloServer({
-    typeDefs: schema,
-    resolvers: resolver,
-    introspection: true,
-    playground: true,
-    context: params => () => {
-      logger.info(params.req.headers)
-      logger.info(params.req.body.query)
-      logger.info(params.req.body.variables)
-    },
-    formatResponse: (response) => {
-      logger.info(response)
-      return response
-    },
-    formatError: (error) => {
-      logger.error(error)
-      return error
-    },
-  })
-
-  const {
-    url
-  } = await server.listen()
-  console.log(`🚀  Server ready at ${url}`)
-}
-
-main()
+server.listen({
+  port
+}).then(({
+  url
+}) => {
+  console.log(`🚀 Server ready at ${url} NODE_ENV=${environment}`)
+})
