@@ -22,7 +22,7 @@ dotenv.config({
 
 module.exports = async () => {
   console.log('\n')
-  await knexMigrate('up', {}, log)
+  await knexMigrate('up', { knexfile: 'src/db/config.js' }, log)
 
   const port = process.env.APOLLO_SERVER_PORT
   global.apollo = await server.listen({

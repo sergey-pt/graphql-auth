@@ -1,8 +1,11 @@
-// import environment variables
-import dotenv from 'dotenv'
+process.chdir(__dirname.replace('src/db', '')) // hack for wrong knex/bin/cli.js:61 behavior
+
+const resolve = require('path').resolve
 const environment = process.env.NODE_ENV || 'development'
+
+import dotenv from 'dotenv'
 dotenv.config({
-  path: `./config/${environment}.env`
+  path: resolve(`./src/config/${environment}.env`)
 })
 
 const pgConfig = {
@@ -14,7 +17,10 @@ const pgConfig = {
     idleTimeoutMillis: 500
   },
   migrations: {
-    directory: './src/db/migrations'
+    directory: resolve('./src/db/migrations')
+  },
+  seeds: {
+    directory: resolve('./src/db/seeds')
   }
 }
 

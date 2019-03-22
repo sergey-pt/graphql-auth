@@ -7,10 +7,10 @@
     "start": "nodemon --exec babel-node --inspect ./src/index.js --ext js,gql | pino-pretty",
     "test": "jest --watch",
     "jest": "jest --ci --runInBand --reporters=default --reporters=jest-junit",
-    "build": "babel src --out-dir ./dist --source-maps",
-    "serve": "node ./dist/index.js",
-    "knex": "babel-node node_modules/.bin/knex",
-    "knex-migrate": "babel-node node_modules/.bin/knex-migrate"
+    "build": "babel src --out-dir dist --copy-files",
+    "serve": "node dist/index.js",
+    "knex": "babel-node node_modules/.bin/knex --knexfile ./src/db/config.js",
+    "knex-migrate": "babel-node node_modules/.bin/knex-migrate --knexfile ./src/db/config.js"
   },
   "jest": {
     "globalSetup": "./tests/jest/globalSetup.js",

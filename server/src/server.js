@@ -3,10 +3,14 @@ import {
   ApolloServer
 } from 'apollo-server'
 
+const environment = process.env.NODE_ENV || 'development'
+const graphqlSchemaPath = (['development', 'test'].includes(environment)) ?
+  './src/app/graphql' : './dist/app/graphql'
+
 const {
   schema,
   resolver
-} = glue('./src/app/graphql')
+} = glue(graphqlSchemaPath)
 
 const logger = require('pino')({
   enabled: !(process.env.LOG_ENABLED === 'false')

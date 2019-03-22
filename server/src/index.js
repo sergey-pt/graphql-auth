@@ -1,3 +1,4 @@
+import '@babel/polyfill/noConflict'
 import server from '~/src/server'
 import dotenv from 'dotenv'
 
