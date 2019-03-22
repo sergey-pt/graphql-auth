@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node --inspect ./src/index.js --ext js,gql | pino-pretty",
-    "test": "jest --watch ",
+    "test": "jest --watch",
+    "jest": "jest --ci --runInBand --reporters=default --reporters=jest-junit",
     "build": "babel src --out-dir ./dist --source-maps",
     "serve": "node ./dist/index.js",
     "knex": "babel-node node_modules/.bin/knex",
@@ -13,7 +14,8 @@
   },
   "jest": {
     "globalSetup": "./tests/jest/globalSetup.js",
-    "globalTeardown": "./tests/jest/globalTeardown.js"
+    "globalTeardown": "./tests/jest/globalTeardown.js",
+    "reporters": ["default", "jest-junit"]
   },
   "keywords": [],
   "author": "",
@@ -52,6 +54,7 @@
     "eslint": "^5.15.3",
     "get-port": "^4.2.0",
     "jest": "^24.5.0",
+    "jest-junit": "^6.3.0",
     "nodemon": "^1.18.10"
   }
 }

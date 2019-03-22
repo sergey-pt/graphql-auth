@@ -10,5 +10,6 @@ const knex = Knex(knexConfig[environment])
 Model.knex(knex)
 
 export {
+  knex,
   Model
 }

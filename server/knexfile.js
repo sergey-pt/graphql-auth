@@ -9,8 +9,9 @@ const pgConfig = {
   client: 'postgresql',
   connection: process.env.PG_CONNECTION_STRING,
   pool: {
-    min: 2,
-    max: 10
+    min: 0,
+    max: 10,
+    idleTimeoutMillis: 500
   },
   migrations: {
     directory: './src/db/migrations'

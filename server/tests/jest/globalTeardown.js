@@ -13,5 +13,5 @@ module.exports = async () => {
     to: 0
   }, log)
 
-  global.apollo.server.close()
+  await global.apollo.server.close()
 }
