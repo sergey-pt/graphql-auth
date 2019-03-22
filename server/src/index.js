@@ -13,5 +13,5 @@ server.listen({
 }).then(({
   url
 }) => {
-  console.log(`🚀 Server ready at ${url} NODE_ENV=${environment}`)
+  console.log(`🚀 Server is ready at ${url} NODE_ENV=${environment}`)
 })
