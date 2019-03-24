@@ -1,20 +1,27 @@
 type Mutation {
-  createUser(data: CreateUserInput): User!
-  updateUser(data: UpdateUserInput): User!
+  createUser(data: CreateUserInput!): AuthPayload!
+  signinUser(data: SignInUserInput!): AuthPayload!
+  updateUser(data: UpdateUserInput!): User!
 }
 
 type Query {
-  users: [User]!
+  getUsers: [User]!
+  getCurrentUser: User!
 }
 
 type User {
-  id: ID!
+  uuid: ID!
   email: String!
   username: String!
   password: String!
   stories: [Story]!
   created_at: DateTime!
   updated_at: DateTime!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
 }
 
 input CreateUserInput {
@@ -24,7 +31,12 @@ input CreateUserInput {
 }
 
 input UpdateUserInput {
-  id: ID!
   email: String
+  username: String
   password: String
+}
+
+input SignInUserInput {
+  email: String!
+  password: String!
 }
