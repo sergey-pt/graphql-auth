@@ -8,7 +8,7 @@ type Query {
 }
 
 type Story {
-  id: ID!
+  uuid: ID!
   title: String!
   user: User
   created_at: DateTime!
@@ -21,7 +21,7 @@ input CreateStoryInput {
 }
 
 input UpdateStoryInput {
-  id: ID!
+  uuid: ID!
   title: String!
   userId: Int!
 }

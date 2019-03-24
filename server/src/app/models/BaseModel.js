@@ -1,8 +1,12 @@
+const guid = require('objection-guid')({
+  field: 'uuid'
+})
+
 import {
   Model
 } from '~/src/db/index'
 
-class BaseModel extends Model {
+class BaseModel extends guid(Model) {
   async $beforeInsert(context) {
     await super.$beforeInsert(context)
     this.created_at = new Date().toISOString()

@@ -14,25 +14,6 @@ import {
 } from '~/src/app/errors/models/UserErrors'
 
 const opts = {
-  schema: {
-    type: 'object',
-    required: ['email', 'password'],
-
-    properties: {
-      id: {
-        type: 'integer'
-      },
-      email: {
-        type: 'string'
-      },
-      username: {
-        type: 'string'
-      },
-      password: {
-        type: 'string'
-      }
-    }
-  },
   before: [
     async ({
       instance,

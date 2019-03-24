@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 import {
   User
 } from '~/src/app/models/User/Model'
@@ -7,23 +9,20 @@ import {
 } from '~/src/app/errors/models/UserErrors'
 
 export default async ({
-  data
+  data,
+  ctx
 }) => {
   const user = await User
     .query()
-    .where('id', data.id)
+    .skipUndefined()
+    .where('id', _.get(ctx, 'currentUser.id', undefined))
     .first()
 
   if (!user) {
-    throw new UserNotFoundError({
-      data: {
-        id: data.id
-      }
-    })
+    throw new UserNotFoundError({})
   }
 
   return await user.$query().updateAndFetch({
-    email: data.email,
-    password: data.password
+    ...data
   })
 }

@@ -36,7 +36,45 @@ class UserValidationError extends ApplicationError {
   }
 }
 
+class InvalidAuthCredentialsError extends ApplicationError {
+  constructor({
+    message,
+    code,
+    data
+  }) {
+    const errorMessage = message || 'Invalid Auth Credentials'
+    const errorCode = code || 'INVALID_AUTH_CREDENTIALS_ERROR'
+    const errorData = data || {}
+
+    super({
+      message: errorMessage,
+      code: errorCode,
+      data: errorData
+    })
+  }
+}
+
+class AuthenticationRequiredError extends ApplicationError {
+  constructor({
+    message,
+    code,
+    data
+  }) {
+    const errorMessage = message || 'Authentication Required'
+    const errorCode = code || 'AUTHENTICATION_REQUIRED_ERROR'
+    const errorData = data || {}
+
+    super({
+      message: errorMessage,
+      code: errorCode,
+      data: errorData
+    })
+  }
+}
+
 export {
   UserNotFoundError,
-  UserValidationError
+  UserValidationError,
+  InvalidAuthCredentialsError,
+  AuthenticationRequiredError
 }

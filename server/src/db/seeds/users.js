@@ -1,31 +1,24 @@
-exports.seed = async function (knex, Promise) {
+import faker from 'faker'
+import bcrypt from 'bcrypt'
+import uuidv4 from 'uuid/v4'
+
+const seed = async function (knex) {
   // Deletes ALL existing entries
   await knex('users').del()
 
-  // Inserts seed entries
-  await knex('users').insert([{
-    id: 1,
-    email: 'nigel@email.com',
-    password: 'Dorwssap23123',
-    username: 'nigel',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  {
-    id: 2,
-    email: 'nakaz@email.com',
-    password: 'Pasd12assword1',
-    username: 'nakaz',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  {
-    id: 3,
-    email: 'jaywon@email.com',
-    password: 'pakASDLsasd114',
-    username: 'jaywon',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
+  for (var index = 0; index < 3; index++) {
+    let email = faker.internet.email()
+    await knex('users').insert([{
+      uuid: uuidv4(),
+      email,
+      password: await bcrypt.hash(email, 10),
+      username: faker.internet.userName(),
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }])
   }
-  ])
+}
+
+export {
+  seed
 }
