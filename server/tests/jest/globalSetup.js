@@ -25,7 +25,7 @@ module.exports = async () => {
     knexfile: 'src/db/config.js'
   }, log)
 
-  const port = process.env.APOLLO_SERVER_PORT
+  const port = process.env.PORT
   global.apollo = await server.listen({
     port
   })

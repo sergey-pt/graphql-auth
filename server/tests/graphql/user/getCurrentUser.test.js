@@ -16,6 +16,15 @@ import userFactory from '~/tests/factories/UserFactory'
 import getClient from '~/tests/utils/getClient'
 
 let client, user, jwtToken
+const getCurrentUser = gql `
+  query {
+    getCurrentUser {
+      uuid
+      email
+      username
+    }
+  }
+`
 
 describe('getUsers', () => {
   beforeAll(async () => {
@@ -30,16 +39,6 @@ describe('getUsers', () => {
   test('Should return current user', async () => {
     client = getClient(jwtToken)
 
-    const getCurrentUser = gql `
-      query {
-        getCurrentUser {
-          uuid
-          email
-          username
-        }
-      }
-    `
-
     const response = await client.query({
       query: getCurrentUser
     })
@@ -51,16 +50,6 @@ describe('getUsers', () => {
 
   test('Should not return current user without valid authentication', async () => {
     client = getClient()
-
-    const getCurrentUser = gql `
-      query {
-        getCurrentUser {
-          uuid
-          email
-          username
-        }
-      }
-    `
 
     await expect(
       client.query({

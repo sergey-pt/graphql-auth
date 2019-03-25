@@ -18,6 +18,17 @@ import getClient from '~/tests/utils/getClient'
 
 let user, client, jwtToken, updateData
 
+const updateUser = gql `
+  mutation($updateData: UpdateUserInput!) {
+    updateUser(
+      data: $updateData
+    ){
+      email
+      username
+    }
+  }
+`
+
 describe('updateUser', () => {
   beforeAll(async () => {
     user = await userFactory.create('user')
@@ -31,16 +42,6 @@ describe('updateUser', () => {
   test('Should update current user', async () => {
     client = getClient(jwtToken)
 
-    const updateUser = gql `
-      mutation($updateData: UpdateUserInput!) {
-        updateUser(
-          data: $updateData
-        ){
-          email
-          username
-        }
-      }
-    `
     updateData = {
       email: faker.internet.email(),
       password: faker.internet.email(),
@@ -77,16 +78,6 @@ describe('updateUser', () => {
   test('Should not update current user without valid authentication', async () => {
     client = getClient()
 
-    const updateUser = gql `
-      mutation($updateData: UpdateUserInput!) {
-        updateUser(
-          data: $updateData
-        ){
-          email
-          username
-        }
-      }
-    `
     updateData = {}
 
     await expect(

@@ -5,6 +5,7 @@ import {
 } from 'objection'
 
 const environment = process.env.NODE_ENV || 'development'
+
 const knex = Knex(dbConfig[environment])
 
 Model.knex(knex)

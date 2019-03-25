@@ -8,10 +8,6 @@ import {
   gql
 } from 'apollo-boost'
 
-import {
-  generateToken
-} from '~/src/app/auth/jwt'
-
 import userFactory from '~/tests/factories/UserFactory'
 import getClient from '~/tests/utils/getClient'
 

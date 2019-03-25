@@ -19,6 +19,20 @@ import getClient from '~/tests/utils/getClient'
 
 let user, anotherUser, story, anotherStory, client, jwtToken, updateData
 
+const updateStory = gql `
+  mutation($updateData: UpdateStoryInput!) {
+    updateStory(
+      data: $updateData
+    ){
+      uuid
+      title
+      user {
+        email
+      }
+    }
+  }
+`
+
 describe('updateStory', () => {
   beforeAll(async () => {
     user = await userFactory.create('user')
@@ -41,20 +55,6 @@ describe('updateStory', () => {
   test('Should update story', async () => {
     client = getClient(jwtToken)
 
-    const updateStory = gql `
-      mutation($updateData: UpdateStoryInput!) {
-        updateStory(
-          data: $updateData
-        ){
-          uuid
-          title
-          user {
-            email
-          }
-        }
-      }
-    `
-
     updateData = {
       uuid: story.uuid,
       title: faker.lorem.sentence()
@@ -73,19 +73,6 @@ describe('updateStory', () => {
   test('Should not update story without valid authentication', async () => {
     client = getClient()
 
-    const updateStory = gql `
-      mutation($updateData: UpdateStoryInput!) {
-        updateStory(
-          data: $updateData
-        ){
-          uuid
-          title
-          user {
-            email
-          }
-        }
-      }
-    `
     updateData = {
       uuid: story.uuid,
       title: faker.lorem.sentence()
@@ -104,19 +91,6 @@ describe('updateStory', () => {
   test('Should not update another user\'s story', async () => {
     client = getClient(jwtToken)
 
-    const updateStory = gql `
-      mutation($updateData: UpdateStoryInput!) {
-        updateStory(
-          data: $updateData
-        ){
-          uuid
-          title
-          user {
-            email
-          }
-        }
-      }
-    `
     updateData = {
       uuid: anotherStory.uuid,
       title: faker.lorem.sentence()

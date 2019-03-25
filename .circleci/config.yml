@@ -8,7 +8,7 @@ defaults: &defaults
         POSTGRES_DB: circleci
   environment:
     NODE_ENV: test
-    PG_CONNECTION_STRING: postgresql://circleci@localhost:5432/circleci
+    DATABASE_URL: postgresql://circleci@localhost:5432/circleci
 
 version: 2
 jobs:
@@ -33,8 +33,36 @@ jobs:
       - store_artifacts:
           path: server/reports/junit
 
+  deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: bash .circleci/setup-heroku.sh
+      - add_ssh_keys:
+          fingerprints:
+            - $HEROKU_SSH_FINGERPRINT
+      - run:
+          name: Deploy to Heroku
+          command: |
+            git push git@heroku.com:$HEROKU_APP_NAME.git `git subtree split --prefix server master`:master --force
+      - run:
+          name: Migrate Database
+          command: |
+            cd server && heroku run -a $HEROKU_APP_NAME knex-migrate --knexfile ./dist/db/config.js up
+      - run:
+          name: Seed Database
+          command: |
+            cd server && heroku run -a $HEROKU_APP_NAME knex --knexfile ./dist/db/config.js seed:run
+
 workflows:
   version: 2
   build-test-deploy:
     jobs:
       - test
+      - deploy:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - test

@@ -18,6 +18,20 @@ import getClient from '~/tests/utils/getClient'
 
 let client, user, jwtToken, newStoryTitle = faker.lorem.sentence()
 
+const createStory = gql `
+  mutation($data: CreateStoryInput!) {
+    createStory(
+      data: $data
+    ){
+      uuid
+      title
+      user {
+        email
+      }
+    }
+  }
+`
+
 describe('createStory', () => {
   beforeAll(async () => {
     user = await userFactory.create('user')
@@ -31,19 +45,6 @@ describe('createStory', () => {
   test('Should create a new user Story', async () => {
     client = getClient(jwtToken)
 
-    const createStory = gql `
-      mutation($data: CreateStoryInput!) {
-        createStory(
-          data: $data
-        ){
-          uuid
-          title
-          user {
-            email
-          }
-        }
-      }
-    `
     const data = {
       title: newStoryTitle
     }
@@ -62,19 +63,6 @@ describe('createStory', () => {
   test('Should not create story without valid authentication', async () => {
     client = getClient()
 
-    const createStory = gql `
-      mutation($data: CreateStoryInput!) {
-        createStory(
-          data: $data
-        ){
-          uuid
-          title
-          user {
-            email
-          }
-        }
-      }
-    `
     const data = {
       title: newStoryTitle
     }

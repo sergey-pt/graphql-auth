@@ -19,25 +19,26 @@ let client = getClient()
 let email = faker.internet.email()
 let username = faker.internet.userName()
 
+const createUser = gql `
+  mutation($data: CreateUserInput!) {
+    createUser(
+      data: $data
+    ){
+      user {
+        uuid
+        email
+        username
+      }
+      token
+    }
+  }
+`
+
 describe('createUser', () => {
   afterAll(async () => {
     await knex.destroy()
   })
   test('Should create a new User and return a JWT token', async () => {
-    const createUser = gql `
-      mutation($data: CreateUserInput!) {
-        createUser(
-          data: $data
-        ){
-          user {
-            uuid
-            email
-            username
-          }
-          token
-        }
-      }
-    `
     const data = {
       email,
       username,
@@ -60,20 +61,6 @@ describe('createUser', () => {
   })
 
   test('Should not create user with invalid data', async () => {
-    const createUser = gql `
-      mutation($data: CreateUserInput!) {
-        createUser(
-          data: $data
-        ){
-          user {
-            uuid
-            email
-            username
-          }
-          token
-        }
-      }
-    `
     const data = {
       email: 'wrongemail',
       password: 'wrongpassword',
@@ -120,20 +107,6 @@ describe('createUser', () => {
   })
 
   test('Should not create user with the same email', async () => {
-    const createUser = gql `
-      mutation($data: CreateUserInput!) {
-        createUser(
-          data: $data
-        ){
-          user {
-            uuid
-            email
-            username
-          }
-          token
-        }
-      }
-    `
     const data = {
       email,
       password: email,

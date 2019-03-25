@@ -14,6 +14,19 @@ import getClient from '~/tests/utils/getClient'
 
 let client, users, stories
 
+const getStories = gql `
+  query {
+    getStories {
+      uuid
+      title
+      user {
+        uuid
+        username
+      }
+    }
+  }
+`
+
 describe('getStories', () => {
   beforeAll(async () => {
     users = await userFactory.createMany('user', 2)
@@ -30,19 +43,6 @@ describe('getStories', () => {
 
   test('Should return stories list', async () => {
     client = getClient()
-
-    const getStories = gql `
-      query {
-        getStories {
-          uuid
-          title
-          user {
-            uuid
-            username
-          }
-        }
-      }
-    `
 
     const response = await client.query({
       query: getStories

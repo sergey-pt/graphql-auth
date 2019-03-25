@@ -18,6 +18,21 @@ import getClient from '~/tests/utils/getClient'
 let client = getClient()
 let user
 
+const signinUser = gql `
+  mutation($data: SignInUserInput!) {
+    signinUser(
+      data: $data
+    ){
+      user {
+        uuid
+        email
+        username
+      }
+      token
+    }
+  }
+`
+
 describe('signinUser', () => {
   beforeAll(async () => {
     user = await userFactory.create('user')
@@ -28,20 +43,6 @@ describe('signinUser', () => {
   })
 
   test('Should signin an existing User and return JWT token', async () => {
-    const signinUser = gql `
-      mutation($data: SignInUserInput!) {
-        signinUser(
-          data: $data
-        ){
-          user {
-            uuid
-            email
-            username
-          }
-          token
-        }
-      }
-    `
     const data = {
       email: user.email,
       password: user.email
@@ -64,20 +65,6 @@ describe('signinUser', () => {
   })
 
   test('Should not sign in with invalid credentials', async () => {
-    const signinUser = gql `
-      mutation($data: SignInUserInput!) {
-        signinUser(
-          data: $data
-        ){
-          user {
-            uuid
-            email
-            username
-          }
-          token
-        }
-      }
-    `
     const data = {
       email: 'wrong@email.com',
       password: 'wrong@email.com'
