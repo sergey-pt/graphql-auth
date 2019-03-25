@@ -15,4 +15,5 @@ module.exports = async () => {
   }, log)
 
   await global.apollo.server.close()
+  console.log('\n🏁 Server closed')
 }

@@ -1,7 +1,9 @@
-process.chdir(__dirname.replace('src/db', '')) // hack for wrong knex/bin/cli.js:61 behavior
-
 const resolve = require('path').resolve
 const environment = process.env.NODE_ENV || 'development'
+
+if ((['development', 'test'].includes(environment))) {
+  process.chdir(__dirname.replace('src/db', '')) // hack for wrong knex/bin/cli.js:61 behavior
+}
 
 import dotenv from 'dotenv'
 dotenv.config({
