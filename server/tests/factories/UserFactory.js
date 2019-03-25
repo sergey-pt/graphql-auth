@@ -10,12 +10,15 @@ import {
 
 factory.setAdapter(new ObjectionAdapter())
 
-const email = faker.internet.email()
+let email
 
 factory.define('user', User, {
-  email,
-  password: email,
-  username: faker.internet.userName()
+  email: factory.sequence('User.email', () => {
+    email = faker.internet.email()
+    return email
+  }),
+  password: factory.sequence('User.password', () => email),
+  username: factory.sequence('User.username', () => faker.internet.userName())
 })
 
 export default factory

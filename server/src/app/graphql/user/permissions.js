@@ -1,14 +1,17 @@
 import {
-  isAuthenticated
+  isAuthenticated,
+  isCurrentUser
 } from '~/src/app/auth/rules'
 
 const usersPermissions = {
   Query: {
-    getUsers: isAuthenticated,
     getCurrentUser: isAuthenticated
   },
   Mutation: {
     updateUser: isAuthenticated
+  },
+  User: {
+    email: isCurrentUser
   }
 }
 

@@ -13,7 +13,6 @@ type User {
   uuid: ID!
   email: String!
   username: String!
-  password: String!
   stories: [Story]!
   created_at: DateTime!
   updated_at: DateTime!

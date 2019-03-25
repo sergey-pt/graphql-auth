@@ -7,7 +7,7 @@ import updateStory from '~/src/app/services/Story/updateStory'
 
 const resolver = {
   Query: {
-    stories: async () => {
+    getStories: async () => {
       return await Story.query().eager('user')
     }
   },
@@ -15,18 +15,18 @@ const resolver = {
   Mutation: {
     createStory: async (_, {
       data
-    }) => {
+    }, ctx) => {
       return await createStory({
         data
-      })
+      }, ctx)
     },
 
     updateStory: async (_, {
       data
-    }) => {
+    }, ctx) => {
       return await updateStory({
         data
-      })
+      }, ctx)
     }
   }
 }

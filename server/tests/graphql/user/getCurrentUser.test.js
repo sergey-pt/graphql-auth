@@ -27,7 +27,7 @@ describe('getUsers', () => {
     await knex.destroy()
   })
 
-  test('Should return return current user', async () => {
+  test('Should return current user', async () => {
     client = getClient(jwtToken)
 
     const getCurrentUser = gql `

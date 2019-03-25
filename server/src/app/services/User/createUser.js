@@ -8,10 +8,12 @@ import {
 
 export default async ({
   data
-}) => {
+}, ctx) => {
   const user = await User.query().insert({
     ...data
   })
+
+  ctx.currentUser = user
 
   return {
     user,

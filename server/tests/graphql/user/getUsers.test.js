@@ -15,12 +15,11 @@ import {
 import userFactory from '~/tests/factories/UserFactory'
 import getClient from '~/tests/utils/getClient'
 
-let client, user, jwtToken
+let client, users, jwtToken
 
 describe('getUsers', () => {
   beforeAll(async () => {
-    user = await userFactory.create('user')
-    jwtToken = generateToken(user.id)
+    users = await userFactory.createMany('user', 2)
   })
 
   afterAll(async () => {
@@ -28,13 +27,12 @@ describe('getUsers', () => {
   })
 
   test('Should return users list', async () => {
-    client = getClient(jwtToken)
+    client = getClient()
 
     const getUsers = gql `
       query {
         getUsers {
           uuid
-          email
           username
         }
       }
@@ -47,16 +45,15 @@ describe('getUsers', () => {
     expect(response.data.getUsers).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          uuid: user.uuid,
-          email: user.email,
-          username: user.username
+          uuid: users[0].uuid,
+          username: users[0].username
         })
       ])
     )
   })
 
-  test('Should not return users list without valid authentication', async () => {
-    client = getClient()
+  test('Should not return with sensitive emails of other users', async () => {
+    client = getClient(jwtToken)
 
     const getUsers = gql `
       query {
@@ -68,10 +65,23 @@ describe('getUsers', () => {
       }
     `
 
-    await expect(
-      client.query({
+    try {
+      await client.query({
         query: getUsers
       })
-    ).rejects.toThrow('Authentication Required')
+    } catch (error) {
+      expect(error.graphQLErrors).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            extensions: expect.objectContaining({
+              code: 'ACCESS_DENIED_ERROR',
+            }),
+            path: expect.arrayContaining([
+              'email'
+            ])
+          })
+        ])
+      )
+    }
   })
 })
