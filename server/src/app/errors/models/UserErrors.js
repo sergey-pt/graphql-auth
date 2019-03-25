@@ -72,9 +72,28 @@ class AuthenticationRequiredError extends ApplicationError {
   }
 }
 
+class AccessDeniedError extends ApplicationError {
+  constructor({
+    message,
+    code,
+    data
+  }) {
+    const errorMessage = message || 'Access Denied'
+    const errorCode = code || 'ACCESS_DENIED_ERROR'
+    const errorData = data || {}
+
+    super({
+      message: errorMessage,
+      code: errorCode,
+      data: errorData
+    })
+  }
+}
+
 export {
   UserNotFoundError,
   UserValidationError,
   InvalidAuthCredentialsError,
-  AuthenticationRequiredError
+  AuthenticationRequiredError,
+  AccessDeniedError
 }

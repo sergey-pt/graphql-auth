@@ -5,23 +5,34 @@ import {
 import {
   StoryNotFoundError
 } from '~/src/app/errors/models/StoryErrors'
+import {
+  AccessDeniedError
+} from '../../errors/models/UserErrors'
 
 export default async ({
   data
-}) => {
+}, ctx) => {
   const {
-    id,
+    uuid,
     ...updateParams
   } = data
 
   const story = await Story.query()
-    .where('id', id)
+    .where('uuid', uuid)
     .first()
 
   if (!story) {
     throw new StoryNotFoundError({
       data: {
-        id
+        uuid
+      }
+    })
+  }
+
+  if (story.userId !== ctx.currentUser.id) {
+    throw new AccessDeniedError({
+      data: {
+        uuid
       }
     })
   }

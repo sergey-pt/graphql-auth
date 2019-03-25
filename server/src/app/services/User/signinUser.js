@@ -23,7 +23,7 @@ function credentialsError(data) {
 
 export default async ({
   data
-}) => {
+}, ctx) => {
   const user = await User
     .query()
     .where('email', data.email)
@@ -38,6 +38,8 @@ export default async ({
   if (!passwordMatch) {
     credentialsError(data)
   }
+
+  ctx.currentUser = user
 
   return {
     user,

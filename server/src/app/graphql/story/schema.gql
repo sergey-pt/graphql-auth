@@ -4,24 +4,22 @@ type Mutation {
 }
 
 type Query {
-  stories: [Story]!
+  getStories: [Story]!
 }
 
 type Story {
   uuid: ID!
   title: String!
-  user: User
+  user: User!
   created_at: DateTime!
   updated_at: DateTime!
 }
 
 input CreateStoryInput {
   title: String!
-  userId: Int!
 }
 
 input UpdateStoryInput {
   uuid: ID!
   title: String!
-  userId: Int!
 }
