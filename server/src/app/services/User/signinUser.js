@@ -21,9 +21,7 @@ function credentialsError(data) {
   })
 }
 
-export default async ({
-  data
-}, ctx) => {
+export default async ({ data }, ctx) => {
   const user = await User
     .query()
     .where('email', data.email)

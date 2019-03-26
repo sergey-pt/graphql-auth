@@ -5,13 +5,20 @@ module.exports = {
     "node": true,
     "jest": true
   },
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "plugin:node/recommended",
+    "prettier"
+  ],
   "parserOptions": {
     "ecmaVersion": 2015,
     "sourceType": "module"
   },
   "rules": {
-    "no-console": 0,
+    "node/no-unsupported-features/es-syntax": "off",
+    "node/no-unpublished-require": "off",
+    "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
+    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
     "indent": [
       "error",
       2
@@ -27,6 +34,24 @@ module.exports = {
     "semi": [
       "error",
       "never"
+    ],
+    "object-curly-newline": ["error", {
+      "ObjectExpression": {
+        "minProperties": 1,
+        "multiline": true
+      },
+      "ObjectPattern": { "multiline": true },
+      "ImportDeclaration": "always",
+      "ExportDeclaration": "always"
+    }],
+    "object-property-newline": [
+      "error", {
+        "allowAllPropertiesOnSameLine": false
+      }
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always"
     ]
   }
 };
