@@ -45,9 +45,7 @@ const server = new ApolloServer({
   schema: graphQLSchema,
   introspection: true,
   playground: true,
-  context: async ({
-    req
-  }) => {
+  context: async ({ req }) => {
     logger.info(req.headers, '[HEADERS]')
     logger.info(req.body.query, '[QUERY]')
     logger.info(req.body.variables, '[VARIABLES]')

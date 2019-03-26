@@ -11,8 +11,6 @@ dotenv.config({
 
 server.listen({
   port
-}).then(({
-  url
-}) => {
+}).then(({ url }) => {
   console.log(`🚀 Server is ready at ${url} NODE_ENV=${environment}`)
 })

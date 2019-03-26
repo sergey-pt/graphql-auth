@@ -18,25 +18,19 @@ const resolver = {
   },
 
   Mutation: {
-    createUser: async (_, {
-      data
-    }, ctx) => {
+    createUser: async (_, { data }, ctx) => {
       return await createUser({
         data
       }, ctx)
     },
 
-    signinUser: async (_, {
-      data
-    }, ctx) => {
+    signinUser: async (_, { data }, ctx) => {
       return await signinUser({
         data
       }, ctx)
     },
 
-    updateUser: async (_, {
-      data
-    }, ctx) => {
+    updateUser: async (_, { data }, ctx) => {
       return await updateUser({
         data,
         ctx

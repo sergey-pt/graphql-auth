@@ -6,9 +6,7 @@ import {
   generateToken
 } from '~/src/app/auth/jwt'
 
-export default async ({
-  data
-}, ctx) => {
+export default async ({ data }, ctx) => {
   const user = await User.query().insert({
     ...data
   })

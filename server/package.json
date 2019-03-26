@@ -17,7 +17,9 @@
     "knex-migrate": "babel-node node_modules/.bin/knex-migrate --knexfile ./src/db/config.js",
     "heroku-knex": "knex --knexfile ./dist/db/config.js",
     "heroku-migrate": "knex-migrate --knexfile ./dist/db/config.js",
-    "heroku-deploy": "cd ../ && git subtree push --prefix server heroku-server master || true"
+    "heroku-deploy": "cd ../ && git subtree push --prefix server heroku-server master || true",
+    "lint": "eslint --ext .js --ignore-path .gitignore .",
+    "precommit": "npm run lint"
   },
   "jest": {
     "globalSetup": "./tests/jest/globalSetup.js",
@@ -69,6 +71,10 @@
     "babel-eslint": "^10.0.1",
     "babel-plugin-root-import": "^6.1.0",
     "eslint": "^5.15.3",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "prettier": "^1.16.4",
     "factory-girl": "^5.0.4",
     "factory-girl-objection-adapter": "^1.0.0",
     "get-port": "^4.2.0",

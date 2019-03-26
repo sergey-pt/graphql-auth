@@ -13,17 +13,13 @@ const resolver = {
   },
 
   Mutation: {
-    createStory: async (_, {
-      data
-    }, ctx) => {
+    createStory: async (_, { data }, ctx) => {
       return await createStory({
         data
       }, ctx)
     },
 
-    updateStory: async (_, {
-      data
-    }, ctx) => {
+    updateStory: async (_, { data }, ctx) => {
       return await updateStory({
         data
       }, ctx)

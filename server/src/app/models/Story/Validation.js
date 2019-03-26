@@ -2,9 +2,7 @@ import {
   User
 } from '~/src/app/models/User/Model'
 
-const storyValidate = async ({
-  instance
-}) => {
+const storyValidate = async ({ instance }) => {
   let errors = []
 
   const user = await User

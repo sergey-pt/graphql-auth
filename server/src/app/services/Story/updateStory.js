@@ -9,9 +9,7 @@ import {
   AccessDeniedError
 } from '../../errors/models/UserErrors'
 
-export default async ({
-  data
-}, ctx) => {
+export default async ({ data }, ctx) => {
   const {
     uuid,
     ...updateParams
