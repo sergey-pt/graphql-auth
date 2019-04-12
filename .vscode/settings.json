@@ -15,5 +15,6 @@
   "eslint.autoFixOnSave": true,
   "editor.formatOnSave": false,
   "editor.formatOnPaste": false,
-  "vetur.validation.template": false
+  "vetur.validation.template": false,
+  "editor.tabCompletion": "on"
 }
