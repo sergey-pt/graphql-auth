@@ -31,8 +31,9 @@
     "verbose": true
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Sergei Anisimov",
+  "license": "UNLICENSED",
+  "private": true,
   "dependencies": {
     "apollo-boost": "^0.3.1",
     "apollo-server": "^2.4.8",

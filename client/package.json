@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "My gnarly Nuxt.js project",
   "author": "Sergei Anisimov",
+  "license": "UNLICENSED",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -11,7 +12,9 @@
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint",
-    "test": "jest"
+    "test": "jest",
+    "heroku-postbuild": "npm run build",
+    "heroku-deploy": "cd ../ && git subtree push --prefix client heroku-client master || true"
   },
   "dependencies": {
     "cross-env": "^5.2.0",
