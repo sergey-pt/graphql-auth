@@ -1,0 +1,24 @@
+{
+  "name": "graphql-auth",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pearce89/graphql-auth.git"
+  },
+  "author": "Sergei Anisimov",
+  "license": "UNLICENSED",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/pearce89/graphql-auth/issues"
+  },
+  "homepage": "https://github.com/pearce89/graphql-auth#readme",
+  "devDependencies": {
+    "concurrently": "^4.1.0"
+  }
+}

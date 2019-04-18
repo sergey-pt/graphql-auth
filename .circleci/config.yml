@@ -12,7 +12,7 @@ defaults: &defaults
 
 version: 2
 jobs:
-  test:
+  test_server:
     <<: *defaults
     steps:
       - checkout
@@ -33,7 +33,28 @@ jobs:
       - store_artifacts:
           path: server/reports/junit
 
-  deploy:
+  test_client:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-deps-{{ checksum "client/package.json" }}
+      - run: cd client && npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-deps-{{ checksum "client/package.json" }}
+      - run:
+          name: Run tests with JUnit as reporter
+          command: cd client && npm run jest
+          environment:
+            JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
+      - store_test_results:
+          path: client/reports/junit
+      - store_artifacts:
+          path: client/reports/junit
+
+  deploy_server:
     <<: *defaults
     steps:
       - checkout
@@ -44,25 +65,46 @@ jobs:
       - run:
           name: Deploy to Heroku
           command: |
-            git push git@heroku.com:$HEROKU_APP_NAME.git `git subtree split --prefix server master`:master --force
+            git push git@heroku.com:$HEROKU_SERVER_APP_NAME.git `git subtree split --prefix server master`:master --force
       - run:
           name: Migrate Database
           command: |
-            cd server && heroku run -a $HEROKU_APP_NAME knex-migrate --knexfile ./dist/db/config.js up
+            cd server && heroku run -a $HEROKU_SERVER_APP_NAME knex-migrate --knexfile ./dist/db/config.js up
       - run:
           name: Seed Database
           command: |
-            cd server && heroku run -a $HEROKU_APP_NAME knex --knexfile ./dist/db/config.js seed:run
+            cd server && heroku run -a $HEROKU_SERVER_APP_NAME knex --knexfile ./dist/db/config.js seed:run
+
+  deploy_client:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: bash .circleci/setup-heroku.sh
+      - add_ssh_keys:
+          fingerprints:
+            - $HEROKU_SSH_FINGERPRINT
+      - run:
+          name: Deploy to Heroku
+          command: |
+            git push git@heroku.com:$HEROKU_CLIENT_APP_NAME.git `git subtree split --prefix client master`:master --force
 
 workflows:
   version: 2
   build-test-deploy:
     jobs:
-      - test
-      - deploy:
+      - test_server
+      - test_client
+      - deploy_server:
           filters:
             branches:
               only:
                 - master
           requires:
-            - test
+            - test_server
+      - deploy_client:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - test_client
