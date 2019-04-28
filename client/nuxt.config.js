@@ -1,3 +1,4 @@
+import path from 'path'
 import pkg from './package'
 
 export default {
@@ -19,27 +20,69 @@ export default {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: '#4299e1' },
 
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['@/assets/css/tailwind.pcss'],
 
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [
+  ],
 
   /*
    ** Nuxt.js modules
    */
-  modules: [],
+  modules: [
+    'nuxt-purgecss'
+  ],
+
+  /*
+  ** PurgeCSS
+  ** https://github.com/Developmint/nuxt-purgecss
+  */
+  purgeCSS: {},
+
+  /*
+  ** This option is given directly to the vue-router Router constructor
+  */
+  router: {
+    base: '',
+    linkActiveClass: 'is-active'
+  },
 
   /*
    ** Build configuration
    */
   build: {
+    /*
+     ** PostCSS setup
+     */
+    postcss: {
+      // Add plugin names as key and arguments as value
+      // Disable a plugin by passing false as value
+      plugins: {
+        'postcss-url': {},
+        tailwindcss: path.resolve(__dirname, './tailwind.config.js'),
+        cssnano: {
+          preset: 'default',
+          discardComments: { removeAll: true },
+          zIndex: false
+        }
+      },
+      // Change the postcss-preset-env settings
+      preset: {
+        stage: 0,
+        autoprefixer: {
+          cascade: false,
+          grid: true
+        }
+      }
+    },
+
     /*
      ** You can extend webpack config here
      */
