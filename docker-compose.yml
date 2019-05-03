@@ -3,7 +3,6 @@ version: "3"
 volumes:
   postgres-data:
     driver: local
-  app-gems:
 
 services:
   postgres:
@@ -14,3 +13,13 @@ services:
       - postgres-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
+  metabase:
+    image: metabase/metabase
+    ports:
+      - "3001:3000"
+    links:
+      - postgres:postgres
+    depends_on:
+      - postgres
+    restart: always
