@@ -4,7 +4,7 @@ import ApolloClient from 'apollo-boost'
 import { SIGNIN_USER } from '~/queries/users'
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000'
+  uri: process.env.apiUrl
 })
 
 export const state = {

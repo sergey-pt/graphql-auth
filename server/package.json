@@ -7,7 +7,7 @@
     "node": "11.x"
   },
   "scripts": {
-    "dev": "nodemon --exec babel-node --inspect ./src/index.js --ext js,gql | pino-pretty -t -c -f -l",
+    "dev": "nodemon -L --exec babel-node --inspect ./src/index.js --ext js,gql | pino-pretty -t -c -f -l",
     "test": "jest --watch --runInBand --silent",
     "test-debugger": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "jest": "jest --ci --runInBand --silent --reporters=default --reporters=jest-junit",

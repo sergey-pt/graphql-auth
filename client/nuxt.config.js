@@ -54,6 +54,17 @@ export default {
     linkActiveClass: 'is-active'
   },
 
+  env: {
+    apiUrl: process.env.API_URL || 'http://server.graphql-auth.local:4000/'
+  },
+
+  watchers: {
+    webpack: {
+      aggregateTimeout: 300,
+      poll: 1000
+    }
+  },
+
   /*
    ** Build configuration
    */

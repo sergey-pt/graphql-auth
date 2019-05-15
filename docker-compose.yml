@@ -6,6 +6,7 @@ volumes:
 
 services:
   postgres:
+    container_name: postgres.graphql-auth.local
     image: postgres:10.1 # We'll use the official postgres image.
     volumes:
       # Mounts a persistable volume inside the postgres data folder, so we
@@ -14,12 +15,45 @@ services:
     ports:
       - "5432:5432"
 
-  metabase:
-    image: metabase/metabase
+  # metabase:
+  #   container_name: metabase.graphql-auth.local
+  #   image: metabase/metabase
+  #   ports:
+  #     - "3001:3000"
+  #   links:
+  #     - postgres:postgres
+  #   depends_on:
+  #     - postgres
+  #   restart: always
+
+  server:
+    container_name: client.graphql-server.local
+    build:
+      context: ./server
+      dockerfile: dev.Dockerfile
+    image: graphql-auth-server
+    # entrypoint: /graphql-auth-server/entrypoint.sh
+    command: /graphql-auth-server/entrypoint.sh
+    environment:
+      - HOST=0.0.0.0
+      - PORT=4000
     ports:
-      - "3001:3000"
-    links:
-      - postgres:postgres
-    depends_on:
-      - postgres
-    restart: always
+      - "4000:4000"
+    volumes:
+      - ./server:/graphql-auth-server
+
+  client:
+    container_name: client.graphql-auth.local
+    build:
+      context: ./client
+      dockerfile: dev.Dockerfile
+    image: graphql-auth-client
+    # entrypoint: /graphql-auth-client/entrypoint.sh
+    command: /graphql-auth-client/entrypoint.sh
+    environment:
+      - HOST=0.0.0.0
+      - PORT=5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./client:/graphql-auth-client
