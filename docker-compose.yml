@@ -3,6 +3,10 @@ version: "3"
 volumes:
   postgres-data:
     driver: local
+  server-node-modules:
+    driver: local
+  client-node-modules:
+    driver: local
 
 services:
   postgres:
@@ -15,32 +19,23 @@ services:
     ports:
       - "5432:5432"
 
-  # metabase:
-  #   container_name: metabase.graphql-auth.local
-  #   image: metabase/metabase
-  #   ports:
-  #     - "3001:3000"
-  #   links:
-  #     - postgres:postgres
-  #   depends_on:
-  #     - postgres
-  #   restart: always
-
   server:
-    container_name: client.graphql-server.local
+    container_name: server.graphql-server.local
     build:
       context: ./server
       dockerfile: dev.Dockerfile
     image: graphql-auth-server
-    # entrypoint: /graphql-auth-server/entrypoint.sh
-    command: /graphql-auth-server/entrypoint.sh
+    entrypoint: /graphql-auth-server/setup-env-files.sh
+    command: npm run dev
     environment:
+      - NODE_ENV=development
       - HOST=0.0.0.0
       - PORT=4000
     ports:
       - "4000:4000"
     volumes:
       - ./server:/graphql-auth-server
+      - server-node-modules:/graphql-auth-server/node_modules
 
   client:
     container_name: client.graphql-auth.local
@@ -48,12 +43,14 @@ services:
       context: ./client
       dockerfile: dev.Dockerfile
     image: graphql-auth-client
-    # entrypoint: /graphql-auth-client/entrypoint.sh
-    command: /graphql-auth-client/entrypoint.sh
+    entrypoint: /graphql-auth-client/setup-env-files.sh
+    command: npm run dev
     environment:
+      - NODE_ENV=development
       - HOST=0.0.0.0
       - PORT=5000
     ports:
       - "5000:5000"
     volumes:
       - ./client:/graphql-auth-client
+      - client-node-modules:/graphql-auth-client/node_modules

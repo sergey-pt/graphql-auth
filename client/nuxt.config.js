@@ -1,6 +1,8 @@
 import path from 'path'
 import pkg from './package'
 
+const environment = process.env.NODE_ENV || 'development'
+
 export default {
   mode: 'universal',
 
@@ -37,7 +39,11 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    'nuxt-purgecss'
+    'nuxt-purgecss',
+    ['@nuxtjs/dotenv', {
+      path: `config/${environment}.env`,
+      systemvars: true
+    }]
   ],
 
   /*
@@ -52,10 +58,6 @@ export default {
   router: {
     base: '',
     linkActiveClass: 'is-active'
-  },
-
-  env: {
-    apiUrl: process.env.API_URL || 'http://server.graphql-auth.local:4000/'
   },
 
   watchers: {

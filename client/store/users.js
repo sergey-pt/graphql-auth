@@ -4,11 +4,13 @@ import ApolloClient from 'apollo-boost'
 import { SIGNIN_USER } from '~/queries/users'
 
 const client = new ApolloClient({
-  uri: process.env.apiUrl
+  uri: process.env.API_URL
 })
 
-export const state = {
-  token: ''
+export const state = () => {
+  return {
+    token: ''
+  }
 }
 
 export const mutations = {

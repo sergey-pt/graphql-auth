@@ -7,7 +7,7 @@
     "node": "11.x"
   },
   "scripts": {
-    "dev": "nodemon -L --exec babel-node --inspect ./src/index.js --ext js,gql | pino-pretty -t -c -f -l",
+    "dev": "nodemon -L --exec babel-node --inspect ./src/index.js --ext js,gql,env | pino-pretty -t -c -f -l",
     "test": "jest --watch --runInBand --silent",
     "test-debugger": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "jest": "jest --ci --runInBand --silent --reporters=default --reporters=jest-junit",
@@ -19,7 +19,12 @@
     "heroku-migrate": "knex-migrate --knexfile ./dist/db/config.js",
     "heroku-deploy": "cd ../ && git subtree push --prefix server heroku-server master || true",
     "lint": "eslint --ext .js --ignore-path .gitignore .",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "db:create": "run-func src/db/tasks.js createDb",
+    "db:clear": "run-func src/db/tasks.js truncateDb",
+    "db:drop": "run-func src/db/tasks.js dropDb",
+    "db:migrate": "babel-node node_modules/.bin/knex-migrate --knexfile ./src/db/config.js",
+    "db:seed": "babel-node node_modules/.bin/knex --knexfile ./src/db/config.js seed:run"
   },
   "jest": {
     "globalSetup": "./tests/jest/globalSetup.js",
@@ -47,15 +52,18 @@
     "graphql-tools": "^4.0.4",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.16.5",
+    "knex-db-manager": "^0.5.0",
     "knex-migrate": "^1.7.2",
     "lodash": "^4.17.11",
     "objection": "^1.6.8",
     "objection-before-and-unique": "^0.5.0",
     "objection-guid": "^3.0.2",
     "password-validator": "^4.1.1",
-    "pg": "^7.10.0",
+    "pg": "^7.11.0",
+    "pg-escape": "^0.2.0",
     "pino": "^5.12.3",
     "pino-pretty": "^2.6.1",
+    "run-func": "^1.0.2",
     "schemaglue": "^4.0.4",
     "uuid": "^3.3.2",
     "validator": "^10.11.0"
