@@ -10,7 +10,7 @@ dotenv.config({
   path: `./config/${environment}.env`
 })
 
-const host = process.env.DATABASE_HOST || 'postgres'
+const host = process.env.DATABASE_HOST || 'localhost'
 const port = process.env.DATABASE_PORT || '5432'
 const database = process.env.DATABASE_NAME || 'graphql-auth-development'
 const user = process.env.DATABASE_USER || 'postgres'

@@ -11,7 +11,7 @@ volumes:
 services:
   postgres:
     container_name: postgres.graphql-auth.local
-    image: postgres:10.1 # We'll use the official postgres image.
+    image: postgres:11 # We'll use the official postgres image.
     volumes:
       # Mounts a persistable volume inside the postgres data folder, so we
       # don't lose the created databases when this container is removed.
