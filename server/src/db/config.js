@@ -6,8 +6,10 @@ const sourcePath = (['development', 'test'].includes(environment)) ?
 process.chdir(__dirname.replace(`${sourcePath}/db`, '')) // hack for wrong knex/bin/cli.js:61 behavior
 
 const dotenv = require('dotenv')
+const path = require('path')
+
 dotenv.config({
-  path: `./config/${environment}.env`
+  path: path.resolve(__dirname, `../config/${environment}.env`)
 })
 
 const host = process.env.DATABASE_HOST || 'localhost'

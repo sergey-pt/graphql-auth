@@ -25,8 +25,8 @@ services:
       context: ./server
       dockerfile: dev.Dockerfile
     image: graphql-auth-server
-    entrypoint: /graphql-auth-server/setup-env-files.sh
-    command: npm run dev
+    entrypoint: /graphql-auth-server/entrypoint.sh
+    # command: npm run dev
     environment:
       - NODE_ENV=development
       - HOST=0.0.0.0
@@ -43,8 +43,8 @@ services:
       context: ./client
       dockerfile: dev.Dockerfile
     image: graphql-auth-client
-    entrypoint: /graphql-auth-client/setup-env-files.sh
-    command: npm run dev
+    entrypoint: /graphql-auth-client/entrypoint.sh
+    # command: npm run dev
     environment:
       - NODE_ENV=development
       - HOST=0.0.0.0

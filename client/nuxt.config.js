@@ -41,7 +41,8 @@ export default {
   modules: [
     'nuxt-purgecss',
     ['@nuxtjs/dotenv', {
-      path: `config/${environment}.env`,
+      path: 'config',
+      filename: `${environment}.env`,
       systemvars: true
     }]
   ],
