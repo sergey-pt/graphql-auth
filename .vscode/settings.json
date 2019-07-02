@@ -15,5 +15,6 @@
   "eslint.autoFixOnSave": true,
   "editor.formatOnSave": false,
   "editor.formatOnPaste": false,
+  "javascript.format.enable": false,
   "vetur.validation.template": false
 }

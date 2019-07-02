@@ -13,8 +13,7 @@ module.exports = {
   "extends": [
     "@nuxtjs",
     "plugin:nuxt/recommended",
-    "prettier",
-    "prettier/vue"
+    "prettier"
   ],
   "plugins": [
     "prettier"
@@ -35,9 +34,16 @@ module.exports = {
       "error",
       "single"
     ],
+    "vue/max-attributes-per-line": ["error", {
+      "singleline": 1,
+      "multiline": {
+        "max": 1,
+        "allowFirstLine": false
+      }
+    }],
     "vue/html-quotes": [
       "error",
-      "single"
+      "double"
     ],
     "semi": [
       "error",

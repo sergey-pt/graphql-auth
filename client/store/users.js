@@ -9,13 +9,22 @@ const client = new ApolloClient({
 
 export const state = () => {
   return {
-    token: ''
+    token: '',
+    authError: null
   }
 }
 
 export const mutations = {
   setToken(state, token) {
     state.token = token
+  },
+
+  setError(state, payload) {
+    state.authError = payload
+  },
+
+  resetError(state) {
+    state.authError = null
   }
 }
 
@@ -36,11 +45,12 @@ export const actions = {
 
       console.log(data)
     } catch (err) {
-      console.error(err)
+      commit('setError', err.graphQLErrors[0])
     }
   }
 }
 
 export const getters = {
-  isAuthenticated: state => !!state.token
+  isAuthenticated: state => !!state.token,
+  authError: state => state.authError
 }
