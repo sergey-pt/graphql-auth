@@ -6,7 +6,7 @@ import { SIGNIN_USER } from '~/queries/users'
 import { saveUserData, clearUserData } from '~/utils'
 
 const client = new ApolloClient({
-  uri: process.env.API_URL
+  uri: process.env.apiUrl
 })
 
 export const state = () => {

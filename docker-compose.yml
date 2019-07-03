@@ -26,7 +26,7 @@ services:
       dockerfile: dev.Dockerfile
     image: graphql-auth-server
     entrypoint: /graphql-auth-server/entrypoint.sh
-    # command: npm run dev
+    command: npm run dev
     environment:
       - NODE_ENV=development
       - HOST=0.0.0.0
@@ -36,6 +36,8 @@ services:
     volumes:
       - ./server:/graphql-auth-server
       - server-node-modules:/graphql-auth-server/node_modules
+    depends_on:
+      - postgres
 
   client:
     container_name: client.graphql-auth.local
@@ -44,7 +46,7 @@ services:
       dockerfile: dev.Dockerfile
     image: graphql-auth-client
     entrypoint: /graphql-auth-client/entrypoint.sh
-    # command: npm run dev
+    command: npm run dev
     environment:
       - NODE_ENV=development
       - HOST=0.0.0.0

@@ -47,6 +47,10 @@ export default {
     }]
   ],
 
+  env: {
+    apiUrl: process.env.API_URL || 'http://server.graphql-auth.local:4000'
+  },
+
   /*
   ** PurgeCSS
   ** https://github.com/Developmint/nuxt-purgecss

@@ -12,7 +12,7 @@
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint",
-    "test": "jest --watch --runInBand --silent",
+    "test": "jest --watchAll --runInBand --silent",
     "test-debugger": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "jest": "jest --ci --runInBand --silent --reporters=default --reporters=jest-junit",
     "heroku-postbuild": "npm run build",
