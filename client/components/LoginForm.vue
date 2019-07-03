@@ -64,12 +64,12 @@
         >
           Sign In
         </button>
-        <a
+        <n-link
           class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-          href="#"
+          to="/users/sign_up"
         >
           Sign Up
-        </a>
+        </n-link>
       </div>
     </form>
     <p class="text-center text-gray-500 text-xs">
@@ -91,7 +91,7 @@ export default {
   }),
 
   computed: {
-    ...mapGetters(['authError']),
+    ...mapGetters(['isAuthenticated', 'authError']),
 
     inputClass() {
       return (field) => {
@@ -118,7 +118,6 @@ export default {
       // stop here if form is invalid
       this.$v.$touch()
       if (this.$v.$invalid) {
-        console.log(this.$v.password)
         return
       }
 
@@ -126,6 +125,10 @@ export default {
         email: this.email,
         password: this.password
       })
+
+      if (this.isAuthenticated) {
+        this.$router.push('/')
+      }
     }
   }
 }

@@ -31,6 +31,8 @@
     "cross-env": "^5.2.0",
     "cross-fetch": "^3.0.4",
     "graphql": "^14.4.1",
+    "js-cookie": "^2.2.0",
+    "jwt-decode": "^2.2.0",
     "nuxt": "^2.8.1",
     "nuxt-purgecss": "^0.2.1",
     "tailwindcss": "^1.0.4",

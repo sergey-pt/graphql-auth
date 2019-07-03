@@ -8,6 +8,8 @@
 import LoginForm from '~/components/LoginForm'
 
 export default {
+  middleware: 'check-auth-for-sign-in',
+
   components: {
     LoginForm
   }

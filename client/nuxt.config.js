@@ -5,7 +5,6 @@ const environment = process.env.NODE_ENV || 'development'
 
 export default {
   mode: 'universal',
-
   /*
    ** Headers of the page
    */
@@ -59,7 +58,8 @@ export default {
   */
   router: {
     base: '',
-    linkActiveClass: 'is-active'
+    linkActiveClass: 'is-active',
+    middleware: ['setup-auth']
   },
 
   watchers: {

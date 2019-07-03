@@ -3,6 +3,8 @@ import 'cross-fetch/polyfill'
 import ApolloClient from 'apollo-boost'
 import { SIGNIN_USER } from '~/queries/users'
 
+import { saveUserData, clearUserData } from '~/utils'
+
 const client = new ApolloClient({
   uri: process.env.API_URL
 })
@@ -10,11 +12,16 @@ const client = new ApolloClient({
 export const state = () => {
   return {
     token: '',
+    userEmail: '',
     authError: null
   }
 }
 
 export const mutations = {
+  setUserEmail(state, userEmail) {
+    state.userEmail = userEmail
+  },
+
   setToken(state, token) {
     state.token = token
   },
@@ -25,7 +32,10 @@ export const mutations = {
 
   resetError(state) {
     state.authError = null
-  }
+  },
+
+  clearToken: state => (state.token = ''),
+  clearUserEmail: state => (state.userEmail = null)
 }
 
 export const actions = {
@@ -41,16 +51,23 @@ export const actions = {
         }
       })
 
+      commit('setUserEmail', data.signinUser.user.email)
       commit('setToken', data.signinUser.token)
-
-      console.log(data)
+      saveUserData(data.signinUser)
     } catch (err) {
       commit('setError', err.graphQLErrors[0])
     }
+  },
+
+  logoutUser({ commit }) {
+    commit('clearToken')
+    commit('clearUserEmail')
+    clearUserData()
   }
 }
 
 export const getters = {
   isAuthenticated: state => !!state.token,
-  authError: state => state.authError
+  authError: state => state.authError,
+  userEmail: state => state.userEmail
 }
