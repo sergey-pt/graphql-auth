@@ -20,5 +20,6 @@
   "homepage": "https://github.com/pearce89/graphql-auth#readme",
   "devDependencies": {
     "concurrently": "^4.1.0"
-  }
+  },
+  "dependencies": {}
 }

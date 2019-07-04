@@ -1,8 +1,10 @@
+import path from 'path'
 import pkg from './package'
+
+const environment = process.env.NODE_ENV || 'development'
 
 export default {
   mode: 'universal',
-
   /*
    ** Headers of the page
    */
@@ -19,27 +21,87 @@ export default {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: '#4299e1' },
 
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['@/assets/css/tailwind.pcss'],
 
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [
+    { src: '~/plugins/vuelidate' }
+  ],
 
   /*
    ** Nuxt.js modules
    */
-  modules: [],
+  modules: [
+    'nuxt-purgecss',
+    ['@nuxtjs/dotenv', {
+      path: 'config',
+      filename: `${environment}.env`,
+      systemvars: true
+    }]
+  ],
+
+  env: {
+    apiUrl: process.env.API_URL || 'http://server.graphql-auth.local:4000'
+  },
+
+  /*
+  ** PurgeCSS
+  ** https://github.com/Developmint/nuxt-purgecss
+  */
+  purgeCSS: {},
+
+  /*
+  ** This option is given directly to the vue-router Router constructor
+  */
+  router: {
+    base: '',
+    linkActiveClass: 'is-active',
+    middleware: ['setup-auth']
+  },
+
+  watchers: {
+    webpack: {
+      aggregateTimeout: 300,
+      poll: 1000
+    }
+  },
 
   /*
    ** Build configuration
    */
   build: {
+    /*
+     ** PostCSS setup
+     */
+    postcss: {
+      // Add plugin names as key and arguments as value
+      // Disable a plugin by passing false as value
+      plugins: {
+        'postcss-url': {},
+        tailwindcss: path.resolve(__dirname, './tailwind.config.js'),
+        cssnano: {
+          preset: 'default',
+          discardComments: { removeAll: true },
+          zIndex: false
+        }
+      },
+      // Change the postcss-preset-env settings
+      preset: {
+        stage: 0,
+        autoprefixer: {
+          cascade: false,
+          grid: true
+        }
+      }
+    },
+
     /*
      ** You can extend webpack config here
      */

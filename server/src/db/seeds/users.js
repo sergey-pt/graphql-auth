@@ -4,6 +4,7 @@ import uuidv4 from 'uuid/v4'
 
 const seed = async function (knex) {
   // Deletes ALL existing entries
+  await knex('stories').del()
   await knex('users').del()
 
   for (var index = 0; index < 3; index++) {

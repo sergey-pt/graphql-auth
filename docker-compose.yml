@@ -3,14 +3,56 @@ version: "3"
 volumes:
   postgres-data:
     driver: local
-  app-gems:
+  server-node-modules:
+    driver: local
+  client-node-modules:
+    driver: local
 
 services:
   postgres:
-    image: postgres:10.1 # We'll use the official postgres image.
+    container_name: postgres.graphql-auth.local
+    image: postgres:11 # We'll use the official postgres image.
     volumes:
       # Mounts a persistable volume inside the postgres data folder, so we
       # don't lose the created databases when this container is removed.
       - postgres-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
+  server:
+    container_name: server.graphql-server.local
+    build:
+      context: ./server
+      dockerfile: dev.Dockerfile
+    image: graphql-auth-server
+    entrypoint: /graphql-auth-server/entrypoint.sh
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - PORT=4000
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./server:/graphql-auth-server
+      - server-node-modules:/graphql-auth-server/node_modules
+    depends_on:
+      - postgres
+
+  client:
+    container_name: client.graphql-auth.local
+    build:
+      context: ./client
+      dockerfile: dev.Dockerfile
+    image: graphql-auth-client
+    entrypoint: /graphql-auth-client/entrypoint.sh
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - PORT=5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./client:/graphql-auth-client
+      - client-node-modules:/graphql-auth-client/node_modules

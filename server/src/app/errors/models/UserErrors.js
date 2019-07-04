@@ -42,7 +42,7 @@ class InvalidAuthCredentialsError extends ApplicationError {
     code,
     data
   }) {
-    const errorMessage = message || 'Invalid Auth Credentials'
+    const errorMessage = message || 'Invalid auth credentials'
     const errorCode = code || 'INVALID_AUTH_CREDENTIALS_ERROR'
     const errorData = data || {}
 

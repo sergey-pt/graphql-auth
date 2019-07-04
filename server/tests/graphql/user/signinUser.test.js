@@ -77,6 +77,6 @@ describe('signinUser', () => {
           data
         }
       })
-    ).rejects.toThrow('Invalid Auth Credentials')
+    ).rejects.toThrow('GraphQL error: Invalid auth credentials')
   })
 })
