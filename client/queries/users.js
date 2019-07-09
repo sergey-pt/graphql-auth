@@ -14,3 +14,18 @@ export const SIGNIN_USER = gql`
     }
   }
 `
+
+export const CREATE_USER = gql`
+  mutation($data: CreateUserInput!) {
+    createUser(
+      data: $data
+    ){
+      user {
+        uuid
+        email
+        username
+      }
+      token
+    }
+  }
+`
