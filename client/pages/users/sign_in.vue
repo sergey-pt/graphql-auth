@@ -1,17 +1,17 @@
 <template>
   <div class="container p-0">
-    <LoginForm />
+    <AuthForm />
   </div>
 </template>
 
 <script>
-import LoginForm from '~/components/LoginForm'
+import AuthForm from '~/components/AuthForm'
 
 export default {
   middleware: 'check-auth-for-sign-in',
 
   components: {
-    LoginForm
+    AuthForm
   }
 }
 </script>
