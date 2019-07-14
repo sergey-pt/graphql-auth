@@ -149,11 +149,20 @@ export default {
     }
   },
 
+  async asyncData ({ app }) {
+    const { data } = await app.apolloProvider.defaultClient.query({
+      query: GET_CURRENT_USER,
+      fetchPolicy: 'no-cache'
+    })
+
+    return {
+      username: data.getCurrentUser.username,
+      email: data.getCurrentUser.email
+    }
+  },
+
   mounted() {
     this.$store.dispatch('users/clearUserErrors')
-
-    this.email = this.getCurrentUser.email
-    this.username = this.getCurrentUser.username
   },
 
   methods: {
@@ -173,12 +182,6 @@ export default {
         email: this.email,
         password: this.password
       })
-    }
-  },
-
-  apollo: {
-    getCurrentUser: {
-      query: GET_CURRENT_USER
     }
   },
 
