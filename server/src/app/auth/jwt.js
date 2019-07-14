@@ -5,8 +5,6 @@ import {
 } from '~/src/app/models/User/Model'
 
 const generateToken = (userId) => {
-  debugger
-
   return jwt.sign({
     userId
   }, process.env.JWT_SECRET, {
