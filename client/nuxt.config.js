@@ -26,7 +26,13 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['@/assets/css/tailwind.pcss'],
+  css: [
+    '@/assets/styles/tailwind.pcss',
+    {
+      src :'@/assets/styles/main.scss',
+      lang: 'scss'
+    }
+  ],
 
   /*
    ** Plugins to load before mounting the App
@@ -39,6 +45,7 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
+    '@nuxtjs/apollo',
     'nuxt-purgecss',
     ['@nuxtjs/dotenv', {
       path: 'config',
@@ -46,6 +53,21 @@ export default {
       systemvars: true
     }]
   ],
+
+  // Give apollo module options
+  apollo: {
+    // required
+    clientConfigs: {
+      default: {
+        // required
+        httpEndpoint: process.env.API_URL || 'http://server.graphql-auth.local:4000/graphql',
+        wsEndpoint: process.env.WS_API_URL || 'ws://server.graphql-auth.local:4000/graphql', // optional
+        // You can use `wss` for secure connection (recommended in production)
+        // LocalStorage token
+        tokenName: 'jwt' // optional
+      }
+    }
+  },
 
   env: {
     apiUrl: process.env.API_URL || 'http://server.graphql-auth.local:4000'

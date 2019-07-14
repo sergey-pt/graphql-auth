@@ -57,6 +57,7 @@
           class="text-red-500 text-xs italic mt-3"
         >
           <span v-if="!$v.email.required">Email is required</span>
+          <span v-if="!$v.email.email">Invalid email</span>
         </p>
         <p
           v-if="emailError"
@@ -251,7 +252,7 @@ export default {
       })
 
       if (this.isAuthenticated) {
-        this.$router.push('/')
+        this.$router.push('/users/profile')
       }
     },
 
@@ -270,7 +271,7 @@ export default {
       })
 
       if (this.isAuthenticated) {
-        this.$router.push('/')
+        this.$router.push('/users/profile')
       }
     }
   }

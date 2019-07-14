@@ -29,3 +29,31 @@ export const CREATE_USER = gql`
     }
   }
 `
+
+export const UPDATE_USER = gql`
+  mutation($data: UpdateUserInput!) {
+    updateUser(
+      data: $data
+    ){
+      uuid
+      email
+      username
+    }
+  }
+`
+
+export const GET_CURRENT_USER = gql`
+  query {
+    getCurrentUser {
+      uuid
+      email
+      username
+      created_at
+      stories {
+        uuid
+        title
+        created_at
+      }
+    }
+  }
+`
