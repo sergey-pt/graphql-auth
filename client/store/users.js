@@ -1,13 +1,8 @@
 import 'cross-fetch/polyfill'
-
-import ApolloClient from 'apollo-boost'
-import { SIGNIN_USER, CREATE_USER } from '~/queries/users'
-
+import Cookie from 'js-cookie'
+import jwtDecode from 'jwt-decode'
+import { SIGNIN_USER, CREATE_USER, UPDATE_USER } from '~/queries/users'
 import { saveUserData, clearUserData } from '~/utils'
-
-const client = new ApolloClient({
-  uri: process.env.apiUrl
-})
 
 export const state = () => {
   return {
@@ -60,9 +55,41 @@ export const actions = {
     commit('resetUserError', userErrorKey)
   },
 
+  async updateUser({ commit }, userPayload) {
+    try {
+      const { data } = await this.app.apolloProvider.defaultClient.mutate({
+        mutation: UPDATE_USER,
+        variables: {
+          data: {
+            username: userPayload.username,
+            email: userPayload.email,
+            password: userPayload.password
+          }
+        }
+      })
+
+      commit('setUserEmail', data.updateUser.email)
+      commit('clearUserErrors')
+      localStorage.setItem('userEmail', data.updateUser.email)
+      Cookie.set('userEmail', data.updateUser.email)
+    } catch (err) {
+      const errorDetails = err.graphQLErrors.map(function(serverError) {
+        return serverError.extensions.exception.data.map(function(serverErrorDetail) {
+          return {
+            code: serverError.extensions.code,
+            key: serverErrorDetail.key,
+            keyword: serverErrorDetail.keyword,
+            message: serverErrorDetail.message
+          }
+        })
+      }).flat()
+      commit('setUserErrors', errorDetails)
+    }
+  },
+
   async createUser({ commit }, userPayload) {
     try {
-      const { data } = await client.mutate({
+      const { data } = await this.app.apolloProvider.defaultClient.mutate({
         mutation: CREATE_USER,
         variables: {
           data: {
@@ -93,7 +120,7 @@ export const actions = {
 
   async authenticateUser({ commit }, userPayload) {
     try {
-      const { data } = await client.mutate({
+      const { data } = await this.app.apolloProvider.defaultClient.mutate({
         mutation: SIGNIN_USER,
         variables: {
           data: {
@@ -121,7 +148,22 @@ export const actions = {
 }
 
 export const getters = {
-  isAuthenticated: state => !!state.token,
+  isAuthenticated: (state) => {
+    if (state.token) {
+      try {
+        const tokenExpire = new Date(jwtDecode(state.token).exp * 1000)
+        if (new Date() < tokenExpire) {
+          return true
+        } else {
+          return false
+        }
+      } catch (error) {
+        return false
+      }
+    } else {
+      return false
+    }
+  },
   authError: state => state.authError,
   userErrors: state => state.userErrors,
   userEmail: state => state.userEmail

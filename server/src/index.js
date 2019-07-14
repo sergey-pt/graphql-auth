@@ -10,11 +10,10 @@ require('dotenv').config({
 const port = process.env.PORT || '4000'
 const host = process.env.HOST || '0.0.0.0'
 
-console.log(`PORT ${process.env.PORT}`)
-
 server.listen({
   port,
   host
-}).then(({ url }) => {
-  console.log(`🚀 Server is ready at ${url} NODE_ENV=${environment}`)
+}).then(({ url, subscriptionsUrl }) => {
+  console.log(`🚀 Server ready at ${url} NODE_ENV=${environment}`)
+  console.log(`🚀 Subscriptions ready at ${subscriptionsUrl} NODE_ENV=${environment}`)
 })
