@@ -8,8 +8,21 @@ import updateUser from '~/src/app/services/User/updateUser'
 
 const resolver = {
   Query: {
-    getCurrentUser: async (_, params, ctx) => {
-      return ctx.currentUser
+    getCurrentUser: async (_, { storiesPage }, ctx) => {
+      const currentPage = storiesPage || 0
+      const user = ctx.currentUser
+
+      let stories = await user.$relatedQuery('stories').page(currentPage, 10)
+
+      stories = {
+        ...stories,
+        currentPage
+      }
+
+      return {
+        ...user,
+        stories
+      }
     },
 
     getUsers: async () => {

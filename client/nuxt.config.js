@@ -61,8 +61,8 @@ export default {
       default: {
         // required
         httpEndpoint: process.env.API_URL || 'http://server.graphql-auth.local:4000/graphql',
-        wsEndpoint: process.env.WS_API_URL || 'ws://server.graphql-auth.local:4000/graphql', // optional
         // You can use `wss` for secure connection (recommended in production)
+        wsEndpoint: null,
         // LocalStorage token
         tokenName: 'jwt' // optional
       }
