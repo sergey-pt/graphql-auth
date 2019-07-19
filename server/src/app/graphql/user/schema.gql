@@ -6,14 +6,14 @@ type Mutation {
 
 type Query {
   getUsers: [User]!
-  getCurrentUser: User!
+  getCurrentUser(storiesPage: Int): User!
 }
 
 type User {
   uuid: ID!
   email: String!
   username: String!
-  stories: [Story]!
+  stories: PaginatedStories!
   created_at: DateTime!
   updated_at: DateTime!
 }
@@ -21,6 +21,12 @@ type User {
 type AuthPayload {
   token: String!
   user: User!
+}
+
+type PaginatedStories {
+  results: [Story]!
+  total: Int!
+  currentPage: Int!
 }
 
 input CreateUserInput {
