@@ -1,4 +1,4 @@
-# GraphQL Auth Boilerplate
+# Full Stack GraphQL Auth Boilerplate
 
 ### Backend side:
 
@@ -54,3 +54,7 @@ There are two options to run this project on local machine:
 4. Install npm dependencies for <ins>root</ins> app: `cd graphql-auth && npm install`
 5. Install npm dependencies for <ins>client</ins> app: `cd graphql-auth/client && npm install`
 6. Install npm dependencies for <ins>server</ins> app: `cd graphql-auth/server && npm install`
+7. Create the database: `cd graphql-auth/server && npm run db:create`
+8. Migrate the database: `cd graphql-auth/server && npm run db:migrate`
+9. Seed the database: `cd graphql-auth/server && npm run db:seed`
+10. Start your services: `cd graphql-auth && npm run dev`
