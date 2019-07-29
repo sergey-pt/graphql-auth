@@ -1,5 +1,7 @@
 # Full Stack GraphQL Auth Boilerplate
 
+[![CircleCI](https://circleci.com/gh/pearce89/graphql-auth.svg?style=shield)](https://circleci.com/gh/pearce89/graphql-auth) [![Heroku App Status](https://heroku-shields.herokuapp.com/graphql-auth)](https://graphql-auth.herokuapp.com)
+
 ### Backend side:
 
 - [node](https://nodejs.org/en/)
