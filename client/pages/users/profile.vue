@@ -108,7 +108,8 @@ export default {
   data: () => ({
     username: '',
     email: '',
-    password: ''
+    password: '',
+    storiesPage: 0
   }),
 
   computed: {
@@ -157,7 +158,8 @@ export default {
 
     return {
       username: data.getCurrentUser.username,
-      email: data.getCurrentUser.email
+      email: data.getCurrentUser.email,
+      stories: data.getCurrentUser.stories.results
     }
   },
 

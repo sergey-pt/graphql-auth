@@ -4,6 +4,7 @@ import {
 
 import createStory from '~/src/app/services/Story/createStory'
 import updateStory from '~/src/app/services/Story/updateStory'
+import deleteStory from '~/src/app/services/Story/deleteStory'
 
 const resolver = {
   Query: {
@@ -22,6 +23,12 @@ const resolver = {
     updateStory: async (_, { data }, ctx) => {
       return await updateStory({
         data
+      }, ctx)
+    },
+
+    deleteStory: async (_, { uuid }, ctx) => {
+      return await deleteStory({
+        uuid
       }, ctx)
     }
   }

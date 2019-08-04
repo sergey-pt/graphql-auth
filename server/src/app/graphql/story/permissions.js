@@ -5,7 +5,8 @@ import {
 const storiesPermissions = {
   Mutation: {
     createStory: isAuthenticated,
-    updateStory: isAuthenticated
+    updateStory: isAuthenticated,
+    deleteStory: isAuthenticated
   }
 }
 
