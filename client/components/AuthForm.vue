@@ -171,7 +171,7 @@ export default {
 
     inputClass() {
       return (field) => {
-        let baseClass = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+        let baseClass = 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none'
 
         if (this.submitted && this.$v[field].$error) {
           baseClass = baseClass.concat(' border-red-500')

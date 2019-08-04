@@ -13,6 +13,9 @@ const resolver = {
       const user = ctx.currentUser
 
       let stories = await user.$relatedQuery('stories').page(currentPage, 10)
+      // currentPage starts from 0. But total pages starts from 1
+      // fix to make it similar
+      stories.total -= 1
 
       stories = {
         ...stories,
