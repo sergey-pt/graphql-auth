@@ -1,8 +1,8 @@
 <template>
-  <div class="container flex bg-white h-16 items-center">
+  <div class="container flex bg-white h-32 xl:h-16 items-center">
     <div class="w-full max-w-screen-xl relative mx-auto px-6">
-      <div class="flex justify-between flex-row items-center -mx-6">
-        <div class="flex flex-row items-center">
+      <div class="flex flex-col justify-between xl:flex-row xl:items-center -mx-6">
+        <div class="flex flex-col xl:flex-row xl:items-center">
           <n-link
             class="mr-6"
             to="/"
@@ -12,7 +12,7 @@
         </div>
         <div
           v-if="isAuthenticated"
-          class="flex justify-start items-center text-gray-500"
+          class="flex flex-col xl:flex-row justify-start xl:items-center text-gray-500"
         >
           <n-link
             class="block flex items-center hover:text-gray-700 mr-6"

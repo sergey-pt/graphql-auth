@@ -2,7 +2,7 @@
   <div class="container p-0">
     <h2>🚀 My Profile</h2>
     <form
-      class="pt-6 pb-8 mb-4 w-6/12"
+      class="pt-6 pb-8 mb-4 xl:w-6/12"
       autocomplete="off"
       @submit.prevent="submitForm"
       @keyup.enter.prevent="submitForm"
