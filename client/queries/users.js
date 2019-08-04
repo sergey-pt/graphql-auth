@@ -43,16 +43,20 @@ export const UPDATE_USER = gql`
 `
 
 export const GET_CURRENT_USER = gql`
-  query {
-    getCurrentUser {
+  query($storiesPage: Int) {
+    getCurrentUser(storiesPage: $storiesPage) {
       uuid
       email
       username
       created_at
       stories {
-        uuid
-        title
-        created_at
+        results {
+          uuid
+          title
+          created_at
+        }
+        total
+        currentPage
       }
     }
   }

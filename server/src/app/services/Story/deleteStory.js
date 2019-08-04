@@ -9,12 +9,7 @@ import {
   AccessDeniedError
 } from '../../errors/models/UserErrors'
 
-export default async ({ data }, ctx) => {
-  const {
-    uuid,
-    ...updateParams
-  } = data
-
+export default async ({ uuid }, ctx) => {
   const story = await Story.query()
     .where('uuid', uuid)
     .first()
@@ -39,7 +34,5 @@ export default async ({ data }, ctx) => {
     })
   }
 
-  return await story.$query().updateAndFetch({
-    ...updateParams
-  })
+  return await story.$query().delete().returning('*')
 }

@@ -1,6 +1,7 @@
 type Mutation {
   createStory(data: CreateStoryInput): Story!
   updateStory(data: UpdateStoryInput): Story!
+  deleteStory(uuid: ID!): Story!
 }
 
 type Query {
