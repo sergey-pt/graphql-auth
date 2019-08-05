@@ -5,7 +5,7 @@ type Mutation {
 }
 
 type Query {
-  getStories: [Story]!
+  getStories(page: Int): PaginatedStories!
 }
 
 type Story {
@@ -23,4 +23,11 @@ input CreateStoryInput {
 input UpdateStoryInput {
   uuid: ID!
   title: String!
+}
+
+type PaginatedStories {
+  results: [Story]!
+  total: Int!
+  totalPages: Int!
+  currentPage: Int!
 }

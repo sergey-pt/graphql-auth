@@ -38,7 +38,8 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    { src: '~/plugins/vuelidate' }
+    { src: '~/plugins/vuelidate' },
+    { src: '~/plugins/vue-moment' }
   ],
 
   /*

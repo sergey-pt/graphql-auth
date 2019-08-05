@@ -21,5 +21,6 @@ export default function({ store, req }) {
   } else {
     store.commit('users/setToken', userData.jwt)
     store.commit('users/setUserEmail', userData.userEmail)
+    store.commit('users/setUserUuid', userData.userUuid)
   }
 }

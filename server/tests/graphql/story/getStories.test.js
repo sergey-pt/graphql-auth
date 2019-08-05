@@ -17,11 +17,13 @@ let client, users, stories
 const getStories = gql `
   query {
     getStories {
-      uuid
-      title
-      user {
+      results {
         uuid
-        username
+        title
+        user {
+          uuid
+          username
+        }
       }
     }
   }
@@ -48,7 +50,7 @@ describe('getStories', () => {
       query: getStories
     })
 
-    expect(response.data.getStories).toEqual(
+    expect(response.data.getStories.results).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           user: expect.objectContaining({

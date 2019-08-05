@@ -98,141 +98,12 @@
       🗂 My Stories
     </h2>
 
-    <ul>
-      <li
-        v-for="story in stories"
-        :key="story.uuid"
-        class="py-2"
-      >
-        <div
-          v-if="currentEditStory == story.uuid"
-          class="flex flex-wrap items-stretch w-full xl:w-6/12 relative"
-        >
-          <input
-            :ref="story.uuid"
-            :value="story.title"
-            type="text"
-            class="flex-shrink
-            flex-grow
-            flex-auto
-            flex-1
-            focus:outline-none
-            leading-tight
-            w-px
-            py-2
-            px-3
-            border
-            border-r-0
-            border-grey-light
-            rounded
-            rounded-r-none
-            relative"
-            placeholder="Story Title"
-            @focusout="currentEditStory = ''"
-          >
-          <div class="flex -mr-px">
-            <button
-              class="flex
-              items-center
-              leading-tight
-              bg-green-400
-              hover:bg-green-500
-              border
-              border-green-500
-              px-3
-              whitespace-no-wrap
-              text-white
-              text-sm
-              focus:outline-none
-              focus:bg-green-500"
-            >
-              Save
-            </button>
-            <button
-              class="flex
-              items-center
-              leading-tight
-              bg-red-400
-              hover:bg-red-500
-              rounded
-              rounded-l-none
-              border
-              border-l-0
-              border-red-500
-              px-3
-              whitespace-no-wrap
-              text-white
-              text-sm
-              focus:outline-none
-              focus:bg-red-500"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-        <div
-          v-else
-          class="flex flex-wrap items-stretch w-full xl:w-6/12 relative"
-        >
-          <input
-            :value="story.title"
-            readonly
-            type="text"
-            class="flex-shrink
-            flex-grow
-            flex-auto
-            flex-1
-            focus:outline-none
-            leading-tight
-            w-px
-            border
-            border-r-0
-            border-white
-            py-2
-            px-3
-            relative
-            cursor-default"
-            placeholder="Story Title"
-          >
-          <div class="flex -mr-px">
-            <button
-              class="flex
-              items-center
-              leading-tight
-              bg-white
-              border
-              border-white
-              px-3
-              whitespace-no-wrap
-              text-green-500
-              text-sm
-              focus:outline-none
-              focus:text-green-700"
-              @click="editStory(story.uuid)"
-            >
-              Edit
-            </button>
-            <button
-              class="flex
-              items-center
-              leading-tight
-              bg-white
-              border
-              border-l-0
-              border-white
-              px-3
-              whitespace-no-wrap
-              text-red-500
-              text-sm
-              focus:outline-none
-              focus:text-red-700"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      </li>
-    </ul>
+    <StoriesList
+      :stories="stories"
+      :page-count="storiesTotalPages"
+      :current-page="storiesPage"
+      @change-stories-page="changeStoriesPage"
+    />
   </div>
 </template>
 
@@ -240,17 +111,21 @@
 import { required, email } from 'vuelidate/lib/validators'
 import { createNamespacedHelpers } from 'vuex'
 import { GET_CURRENT_USER } from '~/queries/users'
+
+import StoriesList from '~/components/StoriesList'
 const { mapGetters } = createNamespacedHelpers('users')
 
 export default {
   middleware: 'check-auth',
 
+  components: {
+    StoriesList
+  },
+
   data: () => ({
     username: '',
     email: '',
-    password: '',
-    storiesPage: 0,
-    currentEditStory: ''
+    password: ''
   }),
 
   computed: {
@@ -302,7 +177,7 @@ export default {
       email: data.getCurrentUser.email,
       stories: data.getCurrentUser.stories.results,
       storiesPage: data.getCurrentUser.stories.currentPage,
-      storiesTotalPages: data.getCurrentUser.stories.total
+      storiesTotalPages: data.getCurrentUser.stories.totalPages
     }
   },
 
@@ -311,11 +186,17 @@ export default {
   },
 
   methods: {
-    editStory(uuid) {
-      this.currentEditStory = uuid
-      this.$nextTick(() => {
-        this.$refs[this.currentEditStory][0].focus()
+    async changeStoriesPage(page) {
+      const { data } = await this.$apollo.query({
+        query: GET_CURRENT_USER,
+        variables: {
+          storiesPage: page
+        },
+        fetchPolicy: 'no-cache'
       })
+
+      this.stories = data.getCurrentUser.stories.results
+      this.storiesPage = data.getCurrentUser.stories.currentPage
     },
 
     resetUserError(key) {

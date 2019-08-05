@@ -1,15 +1,15 @@
 type Mutation {
   createUser(data: CreateUserInput!): AuthPayload!
   signinUser(data: SignInUserInput!): AuthPayload!
-  updateUser(data: UpdateUserInput!): User!
+  updateUser(data: UpdateUserInput!): UserWithStories!
 }
 
 type Query {
   getUsers: [User]!
-  getCurrentUser(storiesPage: Int): User!
+  getCurrentUser(storiesPage: Int): UserWithStories!
 }
 
-type User {
+type UserWithStories {
   uuid: ID!
   email: String!
   username: String!
@@ -18,15 +18,17 @@ type User {
   updated_at: DateTime!
 }
 
+type User {
+  uuid: ID!
+  email: String!
+  username: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
 type AuthPayload {
   token: String!
   user: User!
-}
-
-type PaginatedStories {
-  results: [Story]!
-  total: Int!
-  currentPage: Int!
 }
 
 input CreateUserInput {
