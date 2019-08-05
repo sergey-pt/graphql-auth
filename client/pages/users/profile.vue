@@ -1,8 +1,10 @@
 <template>
   <div class="container p-0">
-    <h2>🚀 My Profile</h2>
+    <h2 class="pb-4">
+      🚀 My Profile
+    </h2>
     <form
-      class="pt-6 pb-8 mb-4 xl:w-6/12"
+      class="xl:w-6/12 pb-2"
       autocomplete="off"
       @submit.prevent="submitForm"
       @keyup.enter.prevent="submitForm"
@@ -92,7 +94,16 @@
     </form>
 
     <hr>
-    <h2>🗂 My Stories</h2>
+    <h2 class="py-4">
+      🗂 My Stories
+    </h2>
+
+    <StoriesList
+      :stories="stories"
+      :page-count="storiesTotalPages"
+      :current-page="storiesPage"
+      @change-stories-page="changeStoriesPage"
+    />
   </div>
 </template>
 
@@ -100,16 +111,21 @@
 import { required, email } from 'vuelidate/lib/validators'
 import { createNamespacedHelpers } from 'vuex'
 import { GET_CURRENT_USER } from '~/queries/users'
+
+import StoriesList from '~/components/StoriesList'
 const { mapGetters } = createNamespacedHelpers('users')
 
 export default {
   middleware: 'check-auth',
 
+  components: {
+    StoriesList
+  },
+
   data: () => ({
     username: '',
     email: '',
-    password: '',
-    storiesPage: 0
+    password: ''
   }),
 
   computed: {
@@ -117,7 +133,7 @@ export default {
 
     inputClass() {
       return (field) => {
-        let baseClass = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+        let baseClass = 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none'
 
         if (this.$v[field].$invalid) {
           baseClass = baseClass.concat(' border-red-500')
@@ -159,7 +175,9 @@ export default {
     return {
       username: data.getCurrentUser.username,
       email: data.getCurrentUser.email,
-      stories: data.getCurrentUser.stories.results
+      stories: data.getCurrentUser.stories.results,
+      storiesPage: data.getCurrentUser.stories.currentPage,
+      storiesTotalPages: data.getCurrentUser.stories.totalPages
     }
   },
 
@@ -168,6 +186,19 @@ export default {
   },
 
   methods: {
+    async changeStoriesPage(page) {
+      const { data } = await this.$apollo.query({
+        query: GET_CURRENT_USER,
+        variables: {
+          storiesPage: page
+        },
+        fetchPolicy: 'no-cache'
+      })
+
+      this.stories = data.getCurrentUser.stories.results
+      this.storiesPage = data.getCurrentUser.stories.currentPage
+    },
+
     resetUserError(key) {
       this.$store.dispatch('users/resetUserError', key)
     },

@@ -53,9 +53,13 @@ export const GET_CURRENT_USER = gql`
         results {
           uuid
           title
-          created_at
+          updated_at
+          user {
+            uuid
+          }
         }
         total
+        totalPages
         currentPage
       }
     }

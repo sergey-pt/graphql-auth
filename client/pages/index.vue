@@ -1,24 +1,11 @@
 <template>
-  <div>
-    <p>Hello world</p>
-    <p>Hello world</p>
-    <p>Hello world</p>
-    <p>Hello world</p>
-    <p>Hello world</p>
-    <p>Hello world</p>
-    <p>Hello world</p>
-    <p>Hello world</p>
-    <p>Hello world</p>
-    <p>Hello world</p>
-    <p>Hello world</p>
-    <p>Hello world</p>
-  </div>
+  <div />
 </template>
 
 <script>
 export default {
-  data: () => ({
-    apiUrl: process.env.API_URL
-  })
+  mounted: function() {
+    this.$router.push('/stories')
+  }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-xl container">
+  <div class="w-full max-w-xl container px-0">
     <form
       class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
       autocomplete="off"
@@ -171,7 +171,7 @@ export default {
 
     inputClass() {
       return (field) => {
-        let baseClass = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+        let baseClass = 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none'
 
         if (this.submitted && this.$v[field].$error) {
           baseClass = baseClass.concat(' border-red-500')

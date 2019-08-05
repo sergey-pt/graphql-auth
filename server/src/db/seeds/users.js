@@ -9,14 +9,24 @@ const seed = async function (knex) {
 
   for (var index = 0; index < 3; index++) {
     let email = faker.internet.email()
-    await knex('users').insert([{
+    let userId = await knex('users').insert([{
       uuid: uuidv4(),
       email,
       password: await bcrypt.hash(email, 10),
       username: faker.internet.userName(),
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
-    }])
+    }]).returning('id')
+
+    for (var i = 0; i < 3; i++) {
+      await knex('stories').insert([{
+        uuid: uuidv4(),
+        title: faker.lorem.words(),
+        userId: userId[0],
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }])
+    }
   }
 }
 

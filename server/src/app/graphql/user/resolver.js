@@ -9,14 +9,21 @@ import updateUser from '~/src/app/services/User/updateUser'
 const resolver = {
   Query: {
     getCurrentUser: async (_, { storiesPage }, ctx) => {
-      const currentPage = storiesPage || 0
+      const perPage = 5
+      const currentPage = storiesPage - 1 || 0
       const user = ctx.currentUser
 
-      let stories = await user.$relatedQuery('stories').page(currentPage, 10)
+      let stories = await user.$relatedQuery('stories')
+        .orderBy('updated_at', 'desc')
+        .page(currentPage, perPage)
 
       stories = {
         ...stories,
-        currentPage
+        currentPage: currentPage + 1,
+
+        totalPages: Math.ceil(
+          (stories.total / perPage)
+        )
       }
 
       return {

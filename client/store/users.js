@@ -8,12 +8,17 @@ export const state = () => {
   return {
     token: '',
     userEmail: '',
+    userUuid: '',
     authError: null,
     userErrors: []
   }
 }
 
 export const mutations = {
+  setUserUuid(state, userUuid) {
+    state.userUuid = userUuid
+  },
+
   setUserEmail(state, userEmail) {
     state.userEmail = userEmail
   },
@@ -42,6 +47,7 @@ export const mutations = {
 
   clearToken: state => (state.token = ''),
   clearUserEmail: state => (state.userEmail = null),
+  clearUserUuid: state => (state.userUuid = null),
   clearUserErrors: state => (state.userErrors = []),
   clearAuthError: state => (state.authError = null)
 }
@@ -141,6 +147,7 @@ export const actions = {
   logoutUser({ commit }) {
     commit('clearToken')
     commit('clearUserEmail')
+    commit('clearUserUuid')
     commit('clearUserErrors')
     commit('clearAuthError')
     clearUserData()
@@ -166,5 +173,6 @@ export const getters = {
   },
   authError: state => state.authError,
   userErrors: state => state.userErrors,
-  userEmail: state => state.userEmail
+  userEmail: state => state.userEmail,
+  userUuid: state => state.userUuid
 }

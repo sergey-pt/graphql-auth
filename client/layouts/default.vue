@@ -1,7 +1,10 @@
 <template>
   <div class="container p-0 xl:p-4">
     <Header />
-    <div class="container mx-auto sm:block md:block lg:flex xl:flex py-4">
+    <div class="container mx-auto flex-col sm:block md:block lg:flex xl:flex pb-2 px-4 md:px-8">
+      <div class="container p-0 pb-4">
+        <hr>
+      </div>
       <nuxt />
     </div>
   </div>
