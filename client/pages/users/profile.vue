@@ -103,6 +103,7 @@
       :page-count="storiesTotalPages"
       :current-page="storiesPage"
       @change-stories-page="changeStoriesPage"
+      @delete-story="deleteStory"
     />
   </div>
 </template>
@@ -166,9 +167,13 @@ export default {
     }
   },
 
-  async asyncData ({ app }) {
+  async asyncData ({ app, query }) {
+    const page = parseInt(query.storiesPage) || 1
     const { data } = await app.apolloProvider.defaultClient.query({
       query: GET_CURRENT_USER,
+      variables: {
+        storiesPage: page
+      },
       fetchPolicy: 'no-cache'
     })
 
@@ -187,6 +192,10 @@ export default {
 
   methods: {
     async changeStoriesPage(page) {
+      this.$router.push({
+        query: { storiesPage: page }
+      })
+
       const { data } = await this.$apollo.query({
         query: GET_CURRENT_USER,
         variables: {
@@ -197,6 +206,20 @@ export default {
 
       this.stories = data.getCurrentUser.stories.results
       this.storiesPage = data.getCurrentUser.stories.currentPage
+    },
+
+    async deleteStory() {
+      const { data } = await this.$apollo.query({
+        query: GET_CURRENT_USER,
+        variables: {
+          storiesPage: parseInt(this.$route.query.storiesPage) || 1
+        },
+        fetchPolicy: 'no-cache'
+      })
+
+      this.stories = data.getCurrentUser.stories.results
+      this.storiesPage = data.getCurrentUser.stories.currentPage
+      this.storiesTotalPages = data.getCurrentUser.stories.totalPages
     },
 
     resetUserError(key) {
