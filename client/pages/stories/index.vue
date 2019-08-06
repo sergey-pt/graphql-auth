@@ -6,6 +6,7 @@
       :current-page="storiesPage"
       :show-authors="true"
       @change-stories-page="changeStoriesPage"
+      @delete-story="deleteStory"
     />
   </div>
 </template>
@@ -39,6 +40,10 @@ export default {
 
   methods: {
     async changeStoriesPage(page) {
+      this.$router.push({
+        query: { page }
+      })
+
       const { data } = await this.$apollo.query({
         query: GET_STORIES,
         variables: {
@@ -49,6 +54,20 @@ export default {
 
       this.stories = data.getStories.results
       this.storiesPage = data.getStories.currentPage
+    },
+
+    async deleteStory() {
+      const { data } = await this.$apollo.query({
+        query: GET_STORIES,
+        variables: {
+          page: parseInt(this.$route.query.page) || 1
+        },
+        fetchPolicy: 'no-cache'
+      })
+
+      this.stories = data.getStories.results
+      this.storiesPage = data.getStories.currentPage
+      this.storiesTotalPages = data.getStories.totalPages
     },
   }
 }

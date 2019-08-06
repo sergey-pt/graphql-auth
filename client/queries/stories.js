@@ -17,3 +17,22 @@ export const GET_STORIES = gql`
     }
   }
 `
+
+export const UPDATE_STORY = gql`
+  mutation($data: UpdateStoryInput!) {
+    updateStory(data: $data) {
+      uuid
+      title
+      updated_at
+    }
+  }
+`
+
+export const DELETE_STORY = gql`
+  mutation($uuid: ID!) {
+    deleteStory(uuid: $uuid) {
+      uuid
+      title
+    }
+  }
+`

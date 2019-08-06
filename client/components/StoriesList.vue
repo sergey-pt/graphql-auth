@@ -8,10 +8,10 @@
       >
         <div
           v-if="currentEditStory == story.uuid"
+          :ref="`story-edit-${story.uuid}`"
           class="flex flex-wrap items-stretch w-full xl:w-6/12 relative"
         >
           <input
-            :ref="story.uuid"
             :value="story.title"
             type="text"
             class="flex-shrink
@@ -30,7 +30,8 @@
             rounded-r-none
             relative"
             placeholder="Story Title"
-            @focusout="currentEditStory = ''"
+            @keyup.esc="currentEditStory = ''"
+            @keyup.enter="updateStory(story)"
           >
           <div
             class="flex -mr-px"
@@ -49,6 +50,7 @@
               text-sm
               focus:outline-none
               focus:bg-green-500"
+              @click="updateStory(story)"
             >
               Save
             </button>
@@ -69,6 +71,7 @@
               text-sm
               focus:outline-none
               focus:bg-red-500"
+              @click="deleteStory(story.uuuid)"
             >
               Delete
             </button>
@@ -133,13 +136,14 @@
               text-sm
               focus:outline-none
               focus:text-red-700"
+              @click="deleteStory(story.uuid)"
             >
               Delete
             </button>
           </div>
         </div>
         <p class="text-xs md:text-sm font-normal text-gray-600 px-3 py-1">
-          {{ story.updated_at | moment("dddd, MMMM Do YYYY") }}
+          {{ story.updated_at | moment("ddd, MMM Do HH:mm") }}
           <span v-if="showAuthors">
             <i>by</i>
             <span class="font-semibold">{{ story.user.username }}</span>
@@ -148,9 +152,7 @@
       </li>
     </ul>
     <div
-      v-if="
-        pageCount
-          > 1"
+      v-if="pageCount > 1"
       class="w-full flex my-auto py-5 items-center justify-center md:items-start md:justify-start text-xs md:text-base"
     >
       <Paginate
@@ -179,6 +181,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
+import { UPDATE_STORY, DELETE_STORY } from '~/queries/stories'
 import Paginate from '~/node_modules/vuejs-paginate/src/components/Paginate'
 const { mapGetters } = createNamespacedHelpers('users')
 
@@ -220,6 +223,37 @@ export default {
   },
 
   methods: {
+    async updateStory(story) {
+      const { data } = await this.$apollo.mutate({
+        mutation: UPDATE_STORY,
+        variables: {
+          data: {
+            uuid: story.uuid,
+            title: this.$refs[`story-edit-${this.currentEditStory}`][0].children[0].value
+          }
+        }
+      })
+
+      const storyIndex = this.stories.findIndex(el => el.uuid === data.updateStory.uuid)
+      this.stories[storyIndex].updated_at = data.updateStory.updated_at
+      this.stories[storyIndex].title = data.updateStory.title
+
+      this.currentEditStory = ''
+    },
+
+    async deleteStory(storyUuid) {
+      if(confirm('Do you really want to delete?')){
+        const { data } = await this.$apollo.mutate({
+          mutation: DELETE_STORY,
+          variables: {
+            uuid: storyUuid
+          }
+        })
+
+        this.$emit('delete-story', data.deleteStory.uuid)
+      }
+    },
+
     changePage(page) {
       this.$emit('change-stories-page', page)
     },
@@ -227,10 +261,9 @@ export default {
     editStory(uuid) {
       this.currentEditStory = uuid
       this.$nextTick(() => {
-        this.$refs[this.currentEditStory][0].focus()
+        this.$refs[`story-edit-${this.currentEditStory}`][0].children[0].focus()
       })
     },
-  },
-
+  }
 }
 </script>
