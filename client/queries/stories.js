@@ -18,6 +18,20 @@ export const GET_STORIES = gql`
   }
 `
 
+export const CREATE_STORY = gql`
+  mutation($data: CreateStoryInput!) {
+    createStory(data: $data) {
+      uuid
+      title
+      updated_at
+      user {
+        username
+        uuid
+      }
+    }
+  }
+`
+
 export const UPDATE_STORY = gql`
   mutation($data: UpdateStoryInput!) {
     updateStory(data: $data) {
