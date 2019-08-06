@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="flex flex-wrap items-stretch w-full xl:w-6/12 relative pb-2">
+    <div
+      v-if="isAuthenticated"
+      class="flex flex-wrap items-stretch w-full xl:w-6/12 relative pb-2"
+    >
       <input
         v-model="newStory.title"
         type="text"
@@ -56,8 +59,10 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex'
 import { GET_STORIES, CREATE_STORY } from '~/queries/stories'
 import StoriesList from '~/components/StoriesList'
+const { mapGetters } = createNamespacedHelpers('users')
 
 export default {
   components: {
@@ -69,6 +74,10 @@ export default {
       title: ''
     }
   }),
+
+  computed: {
+    ...mapGetters(['isAuthenticated']),
+  },
 
   async asyncData ({ app, query }) {
     const page = parseInt(query.page) || 1
