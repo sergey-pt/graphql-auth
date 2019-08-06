@@ -2,6 +2,9 @@ import path from 'path'
 import pkg from './package'
 
 const environment = process.env.NODE_ENV || 'development'
+require('dotenv').config({
+  path: __dirname + `/config/${environment}.env`
+})
 
 export default {
   mode: 'universal',
@@ -61,7 +64,7 @@ export default {
     clientConfigs: {
       default: {
         // required
-        httpEndpoint: process.env.API_URL || 'http://server.graphql-auth.local:4000/graphql',
+        httpEndpoint: process.env.API_URL || 'http://server.graphql-auth.local:4000',
         // You can use `wss` for secure connection (recommended in production)
         wsEndpoint: null,
         // LocalStorage token
