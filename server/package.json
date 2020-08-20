@@ -42,7 +42,7 @@
   "dependencies": {
     "apollo-boost": "^0.4.1",
     "apollo-server": "^2.6.7",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "cross-fetch": "^3.0.2",
     "dotenv": "^7.0.0",
     "faker": "^4.1.0",
