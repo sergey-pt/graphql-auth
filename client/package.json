@@ -35,7 +35,7 @@
     "graphql-tag": "^2.10.1",
     "js-cookie": "^2.2.0",
     "jwt-decode": "^2.2.0",
-    "nuxt": "^2.8.1",
+    "nuxt": "^2.15.8",
     "nuxt-purgecss": "^0.2.1",
     "tailwindcss": "^1.0.4",
     "vue-moment": "^4.0.0",
@@ -66,6 +66,6 @@
     "nodemon": "^1.19.1",
     "prettier": "^1.18.2",
     "sass-loader": "^7.1.0",
-    "vue-jest": "^3.0.3"
+    "vue-jest": "^4.0.1"
   }
 }
